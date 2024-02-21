@@ -109,11 +109,11 @@ typedef enum
  */
 typedef enum
 {
-    RCC_AHB2PERIPHERAL_OTGFS = ((u32)1 <<  7)	    /**< USB OTG FS */
+    RCC_AHB2PERIPHERAL_OTGFS = ((uint32_t)1 <<  7)	    /**< USB OTG FS */
 
 } RCC_AHB2Peri_t;
 
-// #define RCC_AHB2PERIPHERAL_OTGFS 	((u32)1 <<  7)
+// #define RCC_AHB2PERIPHERAL_OTGFS 	((uint32_t)1 <<  7)
 
 
 /*==============================================================================================================*
@@ -201,10 +201,10 @@ typedef enum
 typedef struct 
 {
     RCC_PLLSrcType PLLSrc;                /**< PLL Source: The source of the PLL clock. */
-    u8 PLLM;                              /**< PLL Division Factor M: Division factor for the main PLL input clock. */
-    u16 PLLN;                             /**< PLL Multiplication Factor N: PLL multiplication factor for VCO (Voltage-Controlled Oscillator). */
-    u8 PLLP;                              /**< PLL Division Factor P: Division factor for the main system clock. */
-    u8 PLLQ;                              /**< Main PLL (PLL) division factor for USB OTG FS, SDIO and random number generator clocks */
+    uint8_t PLLM;                              /**< PLL Division Factor M: Division factor for the main PLL input clock. */
+    uint16_t PLLN;                             /**< PLL Multiplication Factor N: PLL multiplication factor for VCO (Voltage-Controlled Oscillator). */
+    uint8_t PLLP;                              /**< PLL Division Factor P: Division factor for the main system clock. */
+    uint8_t PLLQ;                              /**< Main PLL (PLL) division factor for USB OTG FS, SDIO and random number generator clocks */
 
 } RCC_PLLConfig_t;
 

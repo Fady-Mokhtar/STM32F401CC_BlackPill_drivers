@@ -42,18 +42,18 @@ typedef unsigned char bool_t;
 /* NULL Value */
 #define NULL_t	(void*)0
 
-typedef unsigned char 			u8;				/*       0 .. 255             		*/
-typedef unsigned short int 		u16;			/*       0 .. 65535           		*/
-typedef unsigned long int  		u32;			/*       0 .. 4294967295      		*/
-typedef unsigned long long    	u64;			/*       0 .. 18446744073709551615  */
+typedef unsigned char 			uint8_t;			/*       0 .. 255             		*/
+typedef unsigned short int 		uint16_t;			/*       0 .. 65535           		*/
+typedef unsigned long int  		uint32_t;			/*       0 .. 4294967295      		*/
+typedef unsigned long long    	uint64_t;			/*       0 .. 18446744073709551615  */
 
-typedef signed char 			s8;				/*        -128 .. +127            	*/
-typedef signed short int 		s16;			/*      -32768 .. +32767         	*/
-typedef signed long int  		s32;			/*	 -2147483648 .. +2147483647     */
-typedef signed long long      	s64;
+typedef signed char 			sint8_t;			/*        -128 .. +127            	*/
+typedef signed short int 		sint16_t;			/*      -32768 .. +32767         	*/
+typedef signed long int  		sint32_t;			/*	 -2147483648 .. +2147483647     */
+typedef signed long long      	sint64_t;
 
-typedef float  f32;
-typedef double f64;
+typedef float  f32_t;
+typedef double f64_t;
 
 
 
