@@ -13,10 +13,9 @@
 *===============================================================================================================*/
 
 /* Include Libraries  */
-#include "../../STD_TYPES/STD_TYPES.h"
 
 /* Driver Libraries   */
-#include "RCC.h"
+#include "../../include/MCAL/RCC.h"
 
 /*==============================================================================================================*/
 
@@ -67,8 +66,8 @@ typedef struct
     volatile uint32_t DCKCFGR;
 }MRCC;
 
-#define RCC_BASE_ADDRESS (0x40023800UL)
-#define RCC ((volatile MRCC* const)(RCC_BASE_ADDRESS))
+#define RCC_BASE_ADDR (0x40023800UL)
+#define RCC ((volatile MRCC* const)(RCC_BASE_ADDR))
 
 /*==============================================================================================================*/
 /*                                                    Defines                                                   */

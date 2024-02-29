@@ -2,11 +2,28 @@
 /************************************************Includes************************************************/
 /********************************************************************************************************/
 
-
+/* Driver Libraries   */
+#include "../../include/MCAL/GPIO.h"
 
 /********************************************************************************************************/
 /************************************************Defines*************************************************/
 /********************************************************************************************************/
+
+typedef struct 
+{
+    volatile uint32_t GPIOx_MODER;
+    volatile uint32_t GPIOx_OTYPER;
+    volatile uint32_t GPIOx_OSPEEDR;
+    volatile uint32_t GPIOx_PUPDR;
+    volatile uint32_t GPIOx_IDR;
+    volatile uint32_t GPIOx_ODR;
+    volatile uint32_t GPIOx_BSRR;
+    volatile uint32_t GPIOx_LCKR;
+    volatile uint32_t GPIOx_AFRL;
+    volatile uint32_t GPIOx_AFRH;
+    
+}GPIO;
+
 
 
 
@@ -32,4 +49,23 @@
 /*********************************************APIs Implementation****************************************/
 /********************************************************************************************************/
 
+MCAL_ErrorStatus_t GPIO_InitPin(GPIO_strCfg_t *Copy_strCfg_ptr)
+{
 
+
+    return MCAL_OK;
+}
+
+MCAL_ErrorStatus_t GPIO_SetPinState(void* port, uint32_t Copy_PinNum, uint32_t Copy_PinState)
+{
+
+
+    return MCAL_OK;
+}
+
+MCAL_ErrorStatus_t GPIO_GetPinState(void* port, uint32_t Copy_PinNum, uint8_t* Copy_PinState)
+{
+
+
+    return MCAL_OK;
+}
