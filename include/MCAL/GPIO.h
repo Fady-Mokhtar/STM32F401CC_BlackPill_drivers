@@ -16,13 +16,31 @@
 /************************************************Defines*************************************************/
 /********************************************************************************************************/
 
+/*      BASE_ADDRs for each PORT          */
+#define GPIO_PORTA     (void*)(0x40020000UL)
+#define GPIO_PORTB     (void*)(0x40020400UL)
+#define GPIO_PORTC     (void*)(0x40020800UL)
+#define GPIO_PORTD     (void*)(0x40020C00UL)
+#define GPIO_PORTE     (void*)(0x40021000UL)
+#define GPIO_PORTH     (void*)(0x40021C00UL)
 
-#define PORTA_BASE_ADDR     (void*)(0x40020000UL)
-#define PORTB_BASE_ADDR     (void*)(0x40020400UL)
-#define PORTC_BASE_ADDR     (void*)(0x40020800UL)
-#define PORTD_BASE_ADDR     (void*)(0x40020C00UL)
-#define PORTE_BASE_ADDR     (void*)(0x40021000UL)
-#define PORTH_BASE_ADDR     (void*)(0x40021C00UL)
+/*         AFRLy selection Masks          */
+#define      GPIO_MASK_AF0         0000
+#define      GPIO_MASK_AF1         0001
+#define      GPIO_MASK_AF2         0010
+#define      GPIO_MASK_AF3         0011
+#define      GPIO_MASK_AF4         0100
+#define      GPIO_MASK_AF5         0101
+#define      GPIO_MASK_AF6         0110
+#define      GPIO_MASK_AF7         0111
+#define      GPIO_MASK_AF8         1000
+#define      GPIO_MASK_AF9         1001
+#define      GPIO_MASK_AF10        1010
+#define      GPIO_MASK_AF11        1011
+#define      GPIO_MASK_AF12        1100
+#define      GPIO_MASK_AF13        1101
+#define      GPIO_MASK_AF14        1110
+#define      GPIO_MASK_AF15        1111
 
 /*
 #define GPIO_PIN0       0X00
@@ -44,7 +62,6 @@
 */
 
 
-
 /********************************************************************************************************/
 /************************************************Types***************************************************/
 /********************************************************************************************************/
@@ -56,7 +73,7 @@ typedef struct
     uint32_t mode;
     uint32_t speed;
 
-}GPIO_strCfg_t;
+}GPIO_StrCfg_t;
 
 typedef enum
 {
@@ -82,15 +99,55 @@ typedef enum
 {
     GPIO_PINSTATE_LOW,
     GPIO_PINSTATE_HIGH
-}GPIO_PINSTATE_t;
+}GPIO_PinState_t;
+
+typedef enum  
+{
+    GPIO_MODE_Input,                                              //(reset state)
+    GPIO_MODE_Output,
+    GPIO_MODE_Alternatefunction,
+    GPIO_MODE_Analog
+}GPIO_ModeState_t;
+
+typedef enum  
+{
+    GPIO_OUTPUT_PushPull,                                          //(reset state)
+    GPIO_OUTPUT_OpenDrain
+}GPIO_OutputType_t;
+
+typedef enum  
+{
+    GPIO_SPEED_Low,
+    GPIO_SPEED_Medium,
+    GPIO_SPEED_High,
+    GPIO_SPEED_VeryHigh
+}GPIO_SpeedState_t;
+
+typedef enum  
+{
+    GPIO_NO_PUPD,
+    GPIO_PU,
+    GPIO_PD,
+    GPIO_Reserved
+}GPIO_PUPDRState_t;
+
+typedef enum  
+{
+    GPIO_NO_PUPD,
+    GPIO_PU,
+    GPIO_PD,
+    GPIO_Reserved
+}GPIO_PUPDRState_t;
+
+
 
 /********************************************************************************************************/
 /************************************************APIs****************************************************/
 /********************************************************************************************************/
 
-MCAL_ErrorStatus_t GPIO_InitPin(GPIO_strCfg_t *Copy_strCfg_ptr);
+MCAL_ErrorStatus_t GPIO_InitPin(GPIO_StrCfg_t *Copy_strCfg_ptr);
 
-MCAL_ErrorStatus_t GPIO_SetPinState(void* Port, GPIO_PINS_t Copy_PinNum, GPIO_PINSTATE_t Copy_PinState);
+MCAL_ErrorStatus_t GPIO_SetPinState(void* Port, GPIO_PINS_t Copy_PinNum, GPIO_PinState_t Copy_PinState);
 
 MCAL_ErrorStatus_t GPIO_GetPinState(void* Port, GPIO_PINS_t Copy_PinNum, uint8_t* Copy_PinState);
 

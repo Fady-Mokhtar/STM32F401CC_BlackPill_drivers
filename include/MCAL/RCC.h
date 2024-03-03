@@ -73,7 +73,7 @@ typedef enum
 
 /*==============================================================================================================*
 *                                                                                                               *
-*                    Peripheral Clock Enable For AHB Bus                                                        *
+*                    Peripheral Clock Enable For AHB1 Bus                                                        *
 *                    GPIOA                                                                                      *
 *                    GPIOB                                                                                      *
 *                    GPIOC                                                                                      *
