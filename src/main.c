@@ -23,8 +23,8 @@ int main(void)
 
         [1] = 
         {
-            .port = GPIO_PORTA,
-            .pin = GPIO_PIN4,
+            .port = GPIO_PORTB,
+            .pin = GPIO_PIN0,
             .mode = GPIO_MODE_Output,
             .out_type = GPIO_OUTPUT_PushPull,
             .pupd = GPIO_Default,
