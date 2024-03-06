@@ -22,11 +22,19 @@ typedef struct
     volatile uint32_t GPIOx_AFRL;
     volatile uint32_t GPIOx_AFRH;
     
-}GPIO;
+}MGPIO;
 
 
-/*                      Masks                       */
-#define GPIO_MASK_RCC_PORT     (((Copy_strCfg_ptr->port) - GPIO_PORTA) /0x400)
+/*                      Init_Masks                       */
+#define GPIO_MASK_RCC_PORT    (1 << (((Copy_strCfg_ptr[i].port) - GPIO_PORTA) /0x400))
+
+#define GPIO    ((volatile MGPIO* const)(Copy_strCfg_ptr[i].port))
+
+/*                      SetPin_GetPin_Masks                    */
+#define GPIOPINx    ((volatile MGPIO* const)(port))
+
+#define MASK1           0x01
+#define BSRR_CLR_MASK   0x10
 
 
 /********************************************************************************************************/
@@ -36,7 +44,7 @@ typedef struct
 MCAL_ErrorStatus_t GPIO_InitPin(GPIO_StrCfg_t *Copy_strCfg_ptr)
 { 
     MCAL_ErrorStatus_t Loc_GPIOErrorState = MCAL_OK;
-    MCAL_ErrorStatus_t Loc_RCCErrorState = MCAL_OK;
+    //MCAL_ErrorStatus_t Loc_RCCErrorState = MCAL_OK;
 
     if(Copy_strCfg_ptr == NULL_t)
     {
@@ -64,25 +72,64 @@ MCAL_ErrorStatus_t GPIO_InitPin(GPIO_StrCfg_t *Copy_strCfg_ptr)
     }
     else
     {
-       // ((GPIO *)(Copy_strCfg_ptr->port))->
-        RCC_enableAHB1Peripheral(GPIO_MASK_RCC_PORT);               //1st Method
+        
+        uint8_t i;
+        for (i = 0; i < NUM_OF_PINS; i++)
+        {
+            RCC_enableAHB1Peripheral(GPIO_MASK_RCC_PORT);               //1st Method
+            GPIO->GPIOx_OSPEEDR |= (Copy_strCfg_ptr[i].speed << (Copy_strCfg_ptr[i].pin * 2));
+            GPIO->GPIOx_PUPDR |= (Copy_strCfg_ptr[i].pupd << (Copy_strCfg_ptr[i].pin * 2));
+            GPIO->GPIOx_MODER |= (Copy_strCfg_ptr[i].mode << (Copy_strCfg_ptr[i].pin * 2));
+            GPIO->GPIOx_OTYPER |= (Copy_strCfg_ptr[i].out_type << (Copy_strCfg_ptr[i].pin * 2));
+        }
+        
+        
     }
     
 
     return Loc_GPIOErrorState;
 }
 
-MCAL_ErrorStatus_t GPIO_SetPinState(void* port, uint32_t Copy_PinNum, uint32_t Copy_PinState)
+MCAL_ErrorStatus_t GPIO_SetPinState(void *port, GPIO_PINS_t Copy_PinNum, GPIO_PinState_t Copy_PinState)
 {
     MCAL_ErrorStatus_t Loc_GPIOErrorState = MCAL_OK;
-
+/*
+    if (Copy_PinState == 0)
+    {
+        GPIOPINx->GPIOx_BSRR = Copy_PinState << (Copy_PinNum + BSRR_CLR_MASK);
+    }
+    else if (Copy_PinState == 1)   
+    {
+        GPIOPINx->GPIOx_BSRR = Copy_PinState << Copy_PinNum;
+    }
+    else    
+    {
+        Loc_GPIOErrorState = MCAL_WRONG_INPUTS;
+    }
+*/
+    /*     another method (old one)         */
+    
+    if (Copy_PinState == 0)
+    {
+        GPIOPINx->GPIOx_ODR &= ~(Copy_PinState << Copy_PinNum);
+    }
+    else if (Copy_PinState == 1)   
+    {
+         GPIOPINx->GPIOx_ODR |=  Copy_PinState << Copy_PinNum;
+    }
+    else    
+    {
+        Loc_GPIOErrorState = MCAL_WRONG_INPUTS;
+    }
+    
     return Loc_GPIOErrorState;
 }
 
-MCAL_ErrorStatus_t GPIO_GetPinState(void* port, uint32_t Copy_PinNum, uint8_t* Copy_PinState)
+MCAL_ErrorStatus_t GPIO_GetPinState(void *port, GPIO_PINS_t Copy_PinNum, uint8_t* Copy_PinState)
 {
     MCAL_ErrorStatus_t Loc_GPIOErrorState = MCAL_OK;
 
+    *Copy_PinState = ((GPIOPINx->GPIOx_IDR >> Copy_PinNum) & MASK1);
 
     return Loc_GPIOErrorState;
 }

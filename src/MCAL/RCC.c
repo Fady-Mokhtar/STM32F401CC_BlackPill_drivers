@@ -66,8 +66,8 @@ typedef struct
     volatile uint32_t DCKCFGR;
 }MRCC;
 
-#define RCC_BASE_ADDR (0x40023800UL)
-#define RCC ((volatile MRCC* const)(RCC_BASE_ADDR))
+#define RCC_BASE_ADDR   (0x40023800UL)
+#define RCC     ((volatile MRCC* const)(RCC_BASE_ADDR))
 
 /*==============================================================================================================*/
 /*                                                    Defines                                                   */
