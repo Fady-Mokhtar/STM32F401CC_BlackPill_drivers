@@ -28,11 +28,8 @@ typedef struct
     volatile uint32_t GPIOx_ODR;      /*!< GPIO port output data register */
     volatile uint32_t GPIOx_BSRR;     /*!< GPIO port bit set/reset register */
     volatile uint32_t GPIOx_LCKR;     /*!< GPIO port configuration lock register */
-    volatile uint64_t GPIOx_AFR;      /*!< GPIO port alternate function register */
-    /*
-    volatile uint32_t GPIOx_AFRL;   // GPIO port alternate function low register
-    volatile uint32_t GPIOx_AFRH;   // GPIO port alternate function high register
-    */
+    volatile uint32_t GPIOx_AFRL;     /*!< GPIO port alternate function low register */
+    volatile uint32_t GPIOx_AFRH;     /*!< GPIO port alternate function high register */
 } MGPIO;
 
 
