@@ -33,7 +33,7 @@ int main(void)
     };
     
 
-    GPIO_InitPin(&Loc_arrStrGpios);
+    GPIO_InitPin(Loc_arrStrGpios);
 
     uint8_t i;
     for (i = 0; i < NUM_OF_PINS; i++)

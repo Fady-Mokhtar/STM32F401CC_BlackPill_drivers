@@ -2,6 +2,8 @@
 /************************************************Includes************************************************/
 /********************************************************************************************************/
 
+/* Include Libraries  */
+
 /* Driver Libraries   */
 #include "../../include/MCAL/GPIO.h"
 
@@ -30,6 +32,7 @@ typedef struct
     volatile uint32_t GPIOx_LCKR;     /*!< GPIO port configuration lock register */
     volatile uint32_t GPIOx_AFRL;     /*!< GPIO port alternate function low register */
     volatile uint32_t GPIOx_AFRH;     /*!< GPIO port alternate function high register */
+    /*  we cannot make AFRL & AFRH one uint64_t Register because shifting operators's max limit is 32 bit only */
 } MGPIO;
 
 
