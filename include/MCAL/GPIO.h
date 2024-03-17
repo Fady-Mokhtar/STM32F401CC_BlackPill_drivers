@@ -192,6 +192,24 @@ MCAL_ErrorStatus_t GPIO_InitPin(GPIO_StrCfg_t *Copy_strCfg_ptr);
 MCAL_ErrorStatus_t GPIO_SetPinState(void *Port, GPIO_PINS_t Copy_PinNum, GPIO_PinState_t Copy_PinState);
 
 /**
+  * @brief  Toggle the state of a GPIO pin.
+  * @param  Port: Pointer to the GPIO port base address.
+  * @param  Copy_PinNum: The pin number to set the state for.
+  * @param  Copy_PinState: The desired state of the pin (GPIO_PIN_RESET or GPIO_PIN_SET).
+  * @retval MCAL_ErrorStatus_t: Status of the operation, can be SUCCESS or ERROR.
+  *
+  * This function sets the state of the specified GPIO pin on the specified GPIO port
+  * to the desired state (GPIO_PIN_RESET for low, GPIO_PIN_SET for high). It uses bitwise
+  * operations to modify the specific pin in the GPIO port's output data register
+  * without affecting the other pins. The function returns SUCCESS if the operation
+  * is successful, or ERROR if an error occurs (e.g., invalid pin number).
+  *
+  * @note   This function assumes that the GPIO port has already been configured and initialized.
+  *         It does not handle GPIO initialization or configuration.
+  */
+MCAL_ErrorStatus_t GPIO_TogglePinState(void *port, GPIO_PINS_t Copy_PinNum);
+
+/**
   * @brief  Gets the state of a GPIO pin.
   * @param  Port: Pointer to the GPIO port base address.
   * @param  Copy_PinNum: The pin number to get the state for.
@@ -208,6 +226,8 @@ MCAL_ErrorStatus_t GPIO_SetPinState(void *Port, GPIO_PINS_t Copy_PinNum, GPIO_Pi
   */
 
 MCAL_ErrorStatus_t GPIO_GetPinState(void *Port, GPIO_PINS_t Copy_PinNum, uint8_t *Copy_PinState);
+
+MCAL_ErrorStatus_t GPIO_GetOutState(void *port, GPIO_PINS_t Copy_PinNum, uint8_t* Copy_PinState);
 
 
 

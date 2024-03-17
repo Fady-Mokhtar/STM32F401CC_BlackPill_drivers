@@ -79,11 +79,18 @@ typedef struct
 /********************************************************************************************************/
 /*********************************************APIs Implementation****************************************/
 /********************************************************************************************************/
-
+/**
+  \brief       Initialize GPIO Pin
+  \details     Initializes a GPIO pin based on the provided configuration.
+  \param [in]  Copy_strCfg_ptr Pointer to the GPIO_StrCfg_t structure containing pin configuration.
+  \return      Status indicating whether the operation was successful or not.
+               - MCAL_OK: Operation successful.
+               - MCAL_NULL_PTR: Null pointer provided as input.
+               - MCAL_WRONG_INPUTS: Invalid input parameters.
+*/
 MCAL_ErrorStatus_t GPIO_InitPin(GPIO_StrCfg_t *Copy_strCfg_ptr)
 { 
     MCAL_ErrorStatus_t Loc_GPIOErrorState = MCAL_OK;
-    //MCAL_ErrorStatus_t Loc_RCCErrorState = MCAL_OK;
 
     if(Copy_strCfg_ptr == NULL_t)
     {
@@ -129,6 +136,16 @@ MCAL_ErrorStatus_t GPIO_InitPin(GPIO_StrCfg_t *Copy_strCfg_ptr)
     return Loc_GPIOErrorState;
 }
 
+/**
+  \brief       Set GPIO Pin State
+  \details     Sets the state of a GPIO pin to either high or low.
+  \param [in]  port Pointer to the GPIO port.
+  \param [in]  Copy_PinNum Pin number.
+  \param [in]  Copy_PinState Desired state of the pin (high or low).
+  \return      Status indicating whether the operation was successful or not.
+               - MCAL_OK: Operation successful.
+               - MCAL_WRONG_INPUTS: Invalid input parameters.
+*/
 MCAL_ErrorStatus_t GPIO_SetPinState(void *port, GPIO_PINS_t Copy_PinNum, GPIO_PinState_t Copy_PinState)
 {
     MCAL_ErrorStatus_t Loc_GPIOErrorState = MCAL_OK;
@@ -164,11 +181,37 @@ MCAL_ErrorStatus_t GPIO_SetPinState(void *port, GPIO_PINS_t Copy_PinNum, GPIO_Pi
     return Loc_GPIOErrorState;
 }
 
+/**
+  \brief       Get GPIO Pin State
+  \details     Retrieves the current state of a GPIO pin (high or low).
+  \param [in]  port Pointer to the GPIO port.
+  \param [in]  Copy_PinNum Pin number.
+  \param [out] Copy_PinState Pointer to where the pin state will be stored.
+  \return      Status indicating whether the operation was successful or not.
+               - MCAL_OK: Operation successful.
+*/
 MCAL_ErrorStatus_t GPIO_GetPinState(void *port, GPIO_PINS_t Copy_PinNum, uint8_t* Copy_PinState)
 {
     MCAL_ErrorStatus_t Loc_GPIOErrorState = MCAL_OK;
 
     *Copy_PinState = ((GPIOPINx->GPIOx_IDR >> Copy_PinNum) & MASK1);
 
+    return Loc_GPIOErrorState;
+}
+
+/**
+  \brief       Toggle GPIO Pin State
+  \details     Toggles the state of a GPIO pin.
+  \param [in]  port Pointer to the GPIO port.
+  \param [in]  Copy_PinNum Pin number.
+  \return      Status indicating whether the operation was successful or not.
+               - MCAL_OK: Operation successful.
+*/
+MCAL_ErrorStatus_t GPIO_TogglePinState(void *port, GPIO_PINS_t Copy_PinNum)
+{
+    MCAL_ErrorStatus_t Loc_GPIOErrorState = MCAL_OK;
+
+    GPIOPINx->GPIOx_ODR ^= MASK1 << Copy_PinNum;
+    
     return Loc_GPIOErrorState;
 }

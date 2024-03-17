@@ -19,19 +19,22 @@
 /************************************************Types***************************************************/
 /********************************************************************************************************/
 
-
+typedef void (*STK_CBF_t)(void);
 
 /********************************************************************************************************/
 /************************************************APIs****************************************************/
 /********************************************************************************************************/
 
 
-MCAL_ErrorStatus_t STK_SetTime_ms(uint32_t Copy_PreloadVal);
+/*!< Constrain: time can reach up to 8 sec only */
+MCAL_ErrorStatus_t STK_SetTime_ms(uint32_t Copy_TimeReqMS);
 
-MCAL_ErrorStatus_t STK_Start();
+MCAL_ErrorStatus_t STK_Start(void);
 
-MCAL_ErrorStatus_t STK_Stop();
+MCAL_ErrorStatus_t STK_Stop(void);
 
-MCAL_ErrorStatus_t STK_IsExpire(uint32_t* Loc_ExpireStatus);
+MCAL_ErrorStatus_t STK_IsExpire(uint32_t *Copy_ExpireStatus);
 
-MCAL_ErrorStatus_t STK_SetCallBack(uint32_t Copy_PreloadVal);
+MCAL_ErrorStatus_t STK_SetCallBack(STK_CBF_t Copy_CallBackAddr);
+
+void SysTick_Handler(void);

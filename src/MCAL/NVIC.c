@@ -268,7 +268,7 @@ uint8_t NVIC_GetPriority (IRQn_t IRQn, uint32_t* PeriorityStatus)
     }
     else if ((sint32_t)(IRQn) < 0 && (sint32_t)(IRQn) >= -14)
     {
-      *PeriorityStatus = (((uint32_t)SCB->SCB_SHP[(((uint32_t)IRQn) & 0xFUL)-4UL] >> (8U - __NVIC_PRIO_BITS)));
+      *PeriorityStatus = (((uint32_t)SCB->SCB_SHP[(((uint32_t)IRQn) & 0xFUL)-4UL]   >> (8U - __NVIC_PRIO_BITS)));
     }
     else
     {

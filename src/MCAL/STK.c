@@ -11,6 +11,22 @@
 /************************************************Defines*************************************************/
 /********************************************************************************************************/
 
+/* By default systick using AHB/8 prescaler in STK-CTRL so that the clock is equal to 2_MHZ */
+
+#ifndef F_CPU
+#define F_CPU   16000000UL
+#endif
+
+/* 
+    Define a structure named SYSTICK to represent the SysTick registers.
+    The structure contains four volatile uint32_t members:
+    - STK_CTRL: SysTick Reload Value Register
+    - STK_LOAD: SysTick Control and Status Register
+    - STK_VAL: SysTick Current Value Register
+    - STK_CALIB: SysTick Calibration Register
+    
+    Each member is accompanied by a comment indicating its offset and access type.
+*/
 typedef struct
 {
     volatile uint32_t STK_CTRL;               /*!< Offset: 0x004 (R/W)  SysTick Reload Value Register */                                                              
@@ -22,17 +38,24 @@ typedef struct
 #define STK_BASE_ADDR   0xE000E010UL
 #define STK     ((volatile SYSTICK* const)(STK_BASE_ADDR))
 
-
+/* 
+    Define a static variable G_APP_CBF of type STK_CBF_t.
+    This variable is initialized with the value NULL_t, indicating that it currently does not point to any function.
+    It is declared as static, meaning it has file scope and retains its value between function calls.
+*/
+static STK_CBF_t G_APP_CBF = NULL_t;
 
 /* SysTick Control/Status Register Definitions */
 #define STK_MASK_CTRL_COUNTFLAG_Pos         16U                                            /*!< SysTick CTRL: COUNTFLAG Position */
-#define STK_MASK_CTRL_COUNTFLAG_Msk         (1UL << SysTick_CTRL_COUNTFLAG_Pos)            /*!< SysTick CTRL: COUNTFLAG Mask */
+#define STK_MASK_CTRL_COUNTFLAG_Msk         (1UL << STK_MASK_CTRL_COUNTFLAG_Pos)           /*!< SysTick CTRL: COUNTFLAG Mask */
 #define STK_MASK_CTRL_CLKSOURCE_Pos          2U                                            /*!< SysTick CTRL: CLKSOURCE Position */
-#define STK_MASK_CTRL_CLKSOURCE_Msk         (1UL << SysTick_CTRL_CLKSOURCE_Pos)            /*!< SysTick CTRL: CLKSOURCE Mask */
+#define STK_MASK_CTRL_CLKSOURCE_Msk         (1UL << STK_MASK_CTRL_CLKSOURCE_Pos)           /*!< SysTick CTRL: CLKSOURCE Mask */
 #define STK_MASK_CTRL_TICKINT_Pos            1U                                            /*!< SysTick CTRL: TICKINT Position */
-#define STK_MASK_CTRL_TICKINT_Msk           (1UL << SysTick_CTRL_TICKINT_Pos)              /*!< SysTick CTRL: TICKINT Mask */
+#define STK_MASK_CTRL_TICKINT_Msk           (1UL << STK_MASK_CTRL_TICKINT_Pos)             /*!< SysTick CTRL: TICKINT Mask */
 #define STK_MASK_CTRL_ENABLE_Pos             0U                                            /*!< SysTick CTRL: ENABLE Position */
-#define STK_MASK_CTRL_ENABLE_Msk            (1UL /*<< SysTick_CTRL_ENABLE_Pos*/)           /*!< SysTick CTRL: ENABLE Mask */
+#define STK_MASK_CTRL_ENABLE_Msk            (1UL /*<< SysTick_CTRL_DISABLE_Pos*/)          /*!< SysTick CTRL: ENABLE Mask */
+#define STK_MASK_CTRL_DISABLE_Pos            0U                                            /*!< SysTick CTRL: DISABLE Position */
+#define STK_MASK_CTRL_DISABLE_Msk           (0UL /*<< SysTick_CTRL_DISABLE_Pos*/)          /*!< SysTick CTRL: DISABLE Mask */
 /* SysTick load Register Definitions */
 #define STK_MASK_LOAD_RELOAD_Pos             0U                                            /*!< SysTick LOAD: RELOAD Position */
 #define STK_MASK_LOAD_RELOAD_Msk            (0xFFFFFFUL /*<< SysTick_LOAD_RELOAD_Pos*/)    /*!< SysTick LOAD: RELOAD Mask */
@@ -41,9 +64,9 @@ typedef struct
 #define STK_MASK_VAL_CURRENT_Msk            (0xFFFFFFUL /*<< SysTick_VAL_CURRENT_Pos*/)    /*!< SysTick VAL: CURRENT Mask */
 /* SysTick calibration Register Definitions */
 #define STK_MASK_CALIB_NOREF_Pos            31U                                            /*!< SysTick CALIB: NOREF Position */
-#define STK_MASK_CALIB_NOREF_Msk            (1UL << SysTick_CALIB_NOREF_Pos)               /*!< SysTick CALIB: NOREF Mask */
+#define STK_MASK_CALIB_NOREF_Msk            (1UL << STK_MASK_CALIB_NOREF_Pos)               /*!< SysTick CALIB: NOREF Mask */
 #define STK_MASK_CALIB_SKEW_Pos             30U                                            /*!< SysTick CALIB: SKEW Position */
-#define STK_MASK_CALIB_SKEW_Msk             (1UL << SysTick_CALIB_SKEW_Pos)                /*!< SysTick CALIB: SKEW Mask */
+#define STK_MASK_CALIB_SKEW_Msk             (1UL << STK_MASK_CALIB_SKEW_Pos)                /*!< SysTick CALIB: SKEW Mask */
 #define STK_MASK_CALIB_TENMS_Pos             0U                                            /*!< SysTick CALIB: TENMS Position */
 #define STK_MASK_CALIB_TENMS_Msk            (0xFFFFFFUL /*<< SysTick_CALIB_TENMS_Pos*/)    /*!< SysTick CALIB: TENMS Mask */
 
@@ -52,52 +75,144 @@ typedef struct
 /************************************************Types***************************************************/
 /********************************************************************************************************/
 
+/* 
+    Define an enumeration named STK_ExpireState_t to represent the possible states of SysTick expiration.
+    It contains two values:
+    - STK_Expire: Represents the state when SysTick has expired.
+    - STK_NotExpire: Represents the state when SysTick has not expired.
+*/
+typedef enum   
+{
+    STK_NotExpire,
+    STK_Expire
+} STK_ExpireState_t;
 
 
 /********************************************************************************************************/
 /*********************************************APIs Implementation****************************************/
 /********************************************************************************************************/
 
-MCAL_ErrorStatus_t STK_SetTime_ms(uint32_t Copy_PreloadVal)
+/**
+  \brief   Set Time in milliseconds
+  \details Sets the time for the SysTick timer in milliseconds.
+           The maximum time that can be reached is 8 seconds.
+  \param [in]      Copy_TimeReqMS  Time to set in milliseconds.
+  \return                          Status indicating whether the operation was successful or not.
+                                    - MCAL_OK: Operation successful.
+                                    - MCAL_WRONG_INPUTS: Invalid input parameters.
+*/
+MCAL_ErrorStatus_t STK_SetTime_ms(uint32_t Copy_TimeReqMS)
 {
     MCAL_ErrorStatus_t Loc_STKErrorState = MCAL_OK;
 
-    if (Copy_PreloadVal > 0x00FFFFFF || Copy_PreloadVal < 0x01)
+    /* Disable the SysTick clock source */
+    STK->STK_CTRL &= ~(STK_MASK_CTRL_CLKSOURCE_Msk);
+
+    /* Calculate the preload value for the SysTick timer */
+    /*!< Tick_Time is equal to 1/2 MicroSec */
+    /*!< That means we can have a time reach up to 8 sec only */
+    /*!< Copy_TimeRequired *1000 to be micro then *2 instead of divide/0.5 then -1 for the tickless when return Hw constrain*/
+    uint32_t Loc_PreloadVal = ((Copy_TimeReqMS * 2000) - 0x01);             
+
+    /* Check if the preload value is within valid range */
+    if (Loc_PreloadVal > STK_MASK_LOAD_RELOAD_Msk || Loc_PreloadVal < 0x0)
     {
         Loc_STKErrorState = MCAL_WRONG_INPUTS;
     }
     else    
     {
-        STK->STK_LOAD = Copy_PreloadVal;
+        /* Set the preload value for the SysTick timer */
+        STK->STK_LOAD = Loc_PreloadVal;
     }
     
     return Loc_STKErrorState;
 }
-MCAL_ErrorStatus_t STK_Start()
+
+/**
+  \brief   Start SysTick Timer
+  \details Starts the SysTick timer.
+  \return  Status indicating whether the operation was successful or not.
+           - MCAL_OK: Operation successful.
+*/
+MCAL_ErrorStatus_t STK_Start(void)
 {
     MCAL_ErrorStatus_t Loc_STKErrorState = MCAL_OK;
 
-    STK->STK_CTRL |= 0x01;
+    STK->STK_VAL = 0;
+    /* Enable the SysTick timer */
+    STK->STK_CTRL |= STK_MASK_CTRL_ENABLE_Msk;
 
     return Loc_STKErrorState;
 }
-MCAL_ErrorStatus_t STK_Stop()
+
+/**
+  \brief   Stop SysTick Timer
+  \details Stops the SysTick timer.
+  \return  Status indicating whether the operation was successful or not.
+           - MCAL_OK: Operation successful.
+*/
+MCAL_ErrorStatus_t STK_Stop(void)
 {
     MCAL_ErrorStatus_t Loc_STKErrorState = MCAL_OK;
 
-    STK->STK_CTRL |= 0x00;
+    /* Disable the SysTick timer */
+    STK->STK_CTRL |= STK_MASK_CTRL_DISABLE_Msk;
 
     return Loc_STKErrorState;
 }
-MCAL_ErrorStatus_t STK_IsExpire(uint32_t* Loc_ExpireStatus)
+
+/**
+  \brief   Check SysTick Expiration
+  \details Checks if the SysTick timer has expired.
+  \param [out]     Copy_ExpireStatus  Pointer to store the expire status.
+  \return                            Status indicating whether the operation was successful or not.
+                                     - MCAL_OK: Operation successful.
+*/
+MCAL_ErrorStatus_t STK_IsExpire(uint32_t *Copy_ExpireStatus)
 {
     MCAL_ErrorStatus_t Loc_STKErrorState = MCAL_OK;
+
+    /* Check if the COUNTFLAG bit is set in the SysTick control register */
+    if ((STK->STK_CTRL & STK_MASK_CTRL_COUNTFLAG_Msk) != 0)
+    {
+        *Copy_ExpireStatus = STK_Expire;
+    }
+    else 
+    {
+        *Copy_ExpireStatus = STK_NotExpire;
+    }
 
     return Loc_STKErrorState;
 }
-MCAL_ErrorStatus_t STK_SetCallBack(uint32_t Copy_PreloadVal)
+
+/**
+  \brief   Set SysTick Callback
+  \details Sets a callback function to be called in the SysTick interrupt handler.
+  \param [in]      Copy_CallBackAddr  Pointer to the callback function.
+  \return                            Status indicating whether the operation was successful or not.
+                                     - MCAL_OK: Operation successful.
+*/
+MCAL_ErrorStatus_t STK_SetCallBack(STK_CBF_t Copy_CallBackAddr)
 {
     MCAL_ErrorStatus_t Loc_STKErrorState = MCAL_OK;
 
+    /* Set the global callback function pointer */
+    G_APP_CBF = Copy_CallBackAddr;
+
     return Loc_STKErrorState;
+}
+
+/**
+  \brief   SysTick Interrupt Handler
+  \details Handles the SysTick interrupt and calls the registered callback function if available.
+  \return  None
+*/
+void SysTick_Handler(void)
+{
+    /* Check if a callback function is registered */
+    if (G_APP_CBF)
+    {
+        /* Call the registered callback function */
+        G_APP_CBF();
+    }
 }
