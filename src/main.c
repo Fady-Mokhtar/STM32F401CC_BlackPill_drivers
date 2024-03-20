@@ -5,45 +5,85 @@
 #include <stdint.h>
 #include "../include/MCAL/RCC.h"
 #include "../include/MCAL/GPIO.h"
+#include "../include/MCAL/GPIO_cfg.h"
 #include "../include/MCAL/STK.h"
+#include "../include/Service/Schedular.h"
 
+
+extern GPIO_StrCfg_t Loc_arrStrGpios[NUM_OF_PINS];
+
+
+//  systick_test
+
+/*
+void nvic_test_tog_led(void)
+{
+    uint32_t expire;
+
+  
+    STK_IsExpire(&expire);
+    if (expire)
+    {
+        GPIO_TogglePinState(Loc_arrStrGpios[0].port, Loc_arrStrGpios[0].pin);
+    }
+        
+    
+}
+
+*/
+
+#define green   0
+#define yellow  1
+#define red     2
+
+
+
+void Traffic_Green(void)
+{
+    //GPIO_TogglePinState(Loc_arrStrGpios[red].port, Loc_arrStrGpios[red].pin);
+    GPIO_TogglePinState(Loc_arrStrGpios[green].port, Loc_arrStrGpios[green].pin);
+}
+
+void Traffic_Yellow(void)
+{
+    //GPIO_TogglePinState(Loc_arrStrGpios[green].port, Loc_arrStrGpios[green].pin);
+    GPIO_TogglePinState(Loc_arrStrGpios[yellow].port, Loc_arrStrGpios[yellow].pin);
+}
+
+void Traffic_Red(void)
+{
+    //GPIO_TogglePinState(Loc_arrStrGpios[yellow].port, Loc_arrStrGpios[yellow].pin);
+    GPIO_TogglePinState(Loc_arrStrGpios[red].port, Loc_arrStrGpios[red].pin);
+}
 
 int main(void)
 {
-    GPIO_StrCfg_t Loc_arrStrGpios[NUM_OF_PINS] = {
-        [0] = 
-        {
-            .port = GPIO_PORTA,
-            .pin = GPIO_PIN0,
-            .mode = GPIO_MODE_Output,
-            .out_type = GPIO_OUTPUT_PushPull,
-            .pupd = GPIO_Default,
-            .speed = GPIO_SPEED_Low
-        },
-
-        [1] = 
-        {
-            .port = GPIO_PORTB,
-            .pin = GPIO_PIN0,
-            .mode = GPIO_MODE_Output,
-            .out_type = GPIO_OUTPUT_PushPull,
-            .pupd = GPIO_Default,
-            .speed = GPIO_SPEED_Low
-        }
-    };
-    
-    
-
+      
     GPIO_InitPin(Loc_arrStrGpios);
-/*
-    GPIO_SetPinState(Loc_arrStrGpios[0].port, Loc_arrStrGpios[0].pin, GPIO_PINSTATE_HIGH);
-    GPIO_TogglePinState(Loc_arrStrGpios[0].port, Loc_arrStrGpios[0].pin);
-*/
-    //GPIO_TogglePinState(Loc_arrStrGpios[0].port, Loc_arrStrGpios[0].pin);
 
-    STK_SetTime_ms(7000);
+    
+    sched_init();
+    sched_start();
+
+    while (1)
+    {
+        
+    }
+    
+    //GPIO_SetPinState(Loc_arrStrGpios[0].port, Loc_arrStrGpios[0].pin, GPIO_PINSTATE_HIGH);
+
+/*
+    STK_SetTime_ms(2000);
+    STK_SetCallBack(nvic_test_tog_led);
     STK_Start();
 
+    while (1)
+    {
+        
+    }
+*/ 
+    
+/*
     uint32_t expire;
 
     while (1)
@@ -56,16 +96,13 @@ int main(void)
         
     }
 
-    /*
+ */   /*
     uint8_t i;
     for (i = 0; i < NUM_OF_PINS; i++)
     {
         GPIO_SetPinState(Loc_arrStrGpios[i].port, Loc_arrStrGpios[i].pin, GPIO_PINSTATE_HIGH);
     }
 */
-    /*
-    GPIO_SetPinState(GPIO_PORTA, GPIO_PIN0, GPIO_PINSTATE_HIGH);
-    GPIO_SetPinState(GPIO_PORTA, GPIO_PIN4, GPIO_PINSTATE_HIGH);
-    */
+
     return 0;
 }

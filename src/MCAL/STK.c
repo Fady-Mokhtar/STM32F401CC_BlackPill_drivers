@@ -38,13 +38,6 @@ typedef struct
 #define STK_BASE_ADDR   0xE000E010UL
 #define STK     ((volatile SYSTICK* const)(STK_BASE_ADDR))
 
-/* 
-    Define a static variable G_APP_CBF of type STK_CBF_t.
-    This variable is initialized with the value NULL_t, indicating that it currently does not point to any function.
-    It is declared as static, meaning it has file scope and retains its value between function calls.
-*/
-static STK_CBF_t G_APP_CBF = NULL_t;
-
 /* SysTick Control/Status Register Definitions */
 #define STK_MASK_CTRL_COUNTFLAG_Pos         16U                                            /*!< SysTick CTRL: COUNTFLAG Position */
 #define STK_MASK_CTRL_COUNTFLAG_Msk         (1UL << STK_MASK_CTRL_COUNTFLAG_Pos)           /*!< SysTick CTRL: COUNTFLAG Mask */
@@ -87,6 +80,16 @@ typedef enum
     STK_Expire
 } STK_ExpireState_t;
 
+/********************************************************************************************************/
+/************************************************Variables***********************************************/
+/********************************************************************************************************/
+
+/* 
+    Define a static variable g_app_cbf of type STK_CBF_t.
+    This variable is initialized with the value NULL_t, indicating that it currently does not point to any function.
+    It is declared as static, meaning it has file scope and retains its value between function calls.
+*/
+static STK_CBF_t g_app_cbf = NULL_t;
 
 /********************************************************************************************************/
 /*********************************************APIs Implementation****************************************/
@@ -105,8 +108,11 @@ MCAL_ErrorStatus_t STK_SetTime_ms(uint32_t Copy_TimeReqMS)
 {
     MCAL_ErrorStatus_t Loc_STKErrorState = MCAL_OK;
 
-    /* Disable the SysTick clock source */
+    /* Disable the SysTick clock source (AHB/8)*/
     STK->STK_CTRL &= ~(STK_MASK_CTRL_CLKSOURCE_Msk);
+
+    /* Enable the SysTick Interrupt */
+    STK->STK_CTRL |= (STK_MASK_CTRL_TICKINT_Msk);
 
     /* Calculate the preload value for the SysTick timer */
     /*!< Tick_Time is equal to 1/2 MicroSec */
@@ -197,7 +203,7 @@ MCAL_ErrorStatus_t STK_SetCallBack(STK_CBF_t Copy_CallBackAddr)
     MCAL_ErrorStatus_t Loc_STKErrorState = MCAL_OK;
 
     /* Set the global callback function pointer */
-    G_APP_CBF = Copy_CallBackAddr;
+    g_app_cbf = Copy_CallBackAddr;
 
     return Loc_STKErrorState;
 }
@@ -210,9 +216,9 @@ MCAL_ErrorStatus_t STK_SetCallBack(STK_CBF_t Copy_CallBackAddr)
 void SysTick_Handler(void)
 {
     /* Check if a callback function is registered */
-    if (G_APP_CBF)
+    if (g_app_cbf)
     {
         /* Call the registered callback function */
-        G_APP_CBF();
+        g_app_cbf();
     }
 }
