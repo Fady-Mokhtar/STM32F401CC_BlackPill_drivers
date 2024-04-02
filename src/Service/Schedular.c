@@ -5,8 +5,8 @@
 /* Include Libraries  */
 
 /* Driver Libraries   */
-#include "../../Include/Service/Schedular.h"
-#include "../../Include/Service/Schedular_cfg.h"
+#include "Schedular.h"
+#include "Schedular_cfg.h"
 
 /********************************************************************************************************/
 /************************************************Defines*************************************************/

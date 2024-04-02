@@ -5,55 +5,60 @@
 /* Include Libraries  */
 
 /* Driver Libraries   */
-#include "Schedular_cfg.h"
+#include "DMA_cfg.h"
+#include "DMA_interface.h"
 
 /********************************************************************************************************/
 /************************************************Defines*************************************************/
 /********************************************************************************************************/
 
-
+#define NUM_OF_DMA   2
 
 /********************************************************************************************************/
 /************************************************Types***************************************************/
 /********************************************************************************************************/
 
-extern void Traffic_Green(void);
-extern void Traffic_Yellow(void);
-extern void Traffic_Red(void);
+
 
 /********************************************************************************************************/
 /************************************************Variables***********************************************/
 /********************************************************************************************************/
-
-runnableStr_t Loc_arrStrRunnables[MAX_SUPPORTED_TASKS] = {
+/*
+DMA_InitTypeDef Loc_arrStrDMA[NUM_OF_DMA] = {
         [0] = 
         {
-            .name = "green_runnable_1",
-			.first_delayMS = 0,
-			.periodicity = 500,
-			.priority = 0,
-			.callback = Traffic_Green
+            .Channel = CHANNEL0,
+            .Direction = PREI_TO_MEM,
+            .FIFOMode = DMA_FIFO_DISABLE,
+            .FIFOThreshold = 0,
+            .Mode = 0,
+            .PeriphInc = 1,
+            .PeriphDataAlignment = 1,
+            .PeriphBurst = 0,
+            .MemInc = 1,
+            .MemDataAlignment = 1,
+            .MemBurst = 0,
+            .Priority = 0
+            
         },
 
         [1] = 
         {
-            .name = "yellow_runnable_2",
-			.first_delayMS = 0,
-			.periodicity = 1000,
-			.priority = 0,
-			.callback = Traffic_Yellow
-        },
-		[2] =
-		{
-			.name = "red_runnable_3",
-			.first_delayMS = 0,
-			.periodicity = 3000,
-			.priority = 0,
-			.callback = Traffic_Red
-		}
+            .Channel = CHANNEL1,
+            .Direction = PREI_TO_MEM,
+            .FIFOMode = DMA_FIFO_DISABLE,
+            .FIFOThreshold = 0,
+            .Mode = 0,
+            .PeriphInc = 1,
+            .PeriphDataAlignment = 1,
+            .PeriphBurst = 0,
+            .MemInc = 1,
+            .MemDataAlignment = 1,
+            .MemBurst = 0,
+            .Priority = 0
+        }
 
-};
-
-
+    };
+*/
 
 

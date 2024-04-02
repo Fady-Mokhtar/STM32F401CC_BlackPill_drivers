@@ -17,13 +17,13 @@
 #ifndef _STD_TYPES_H
 #define _STD_TYPES_H
 
-/*
+
 typedef enum 
 {
 	FALSE,
 	TRUE
-}bool_t;
-*/
+}bool;
+
 
 /* Boolean Data Type */
 typedef unsigned char bool_t;
@@ -41,6 +41,11 @@ typedef unsigned char bool_t;
 
 /* NULL Value */
 #define NULL_t	(void*)0
+#define NULL	(void*)0
+
+typedef unsigned char* 			pu8_t;
+typedef unsigned char* 			pu16_t;
+typedef unsigned char* 			pu32_t;
 
 typedef unsigned char 			uint8_t;			/*       0 .. 255             		*/
 typedef unsigned short int 		uint16_t;			/*       0 .. 65535           		*/
@@ -52,9 +57,8 @@ typedef signed short int 		sint16_t;			/*      -32768 .. +32767         	*/
 typedef signed long int  		sint32_t;			/*	 -2147483648 .. +2147483647     */
 typedef signed long long      	sint64_t;
 
-typedef float  f32_t;
-typedef double f64_t;
-
+typedef float  					f32_t;
+typedef double					f64_t;
 
 
 #endif /* STD_TYPES_H_ */

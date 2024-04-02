@@ -5,8 +5,8 @@
 /* Include Libraries  */
 
 /* Driver Libraries   */
-#include "../../include/MCAL/GPIO.h"
-#include "../../include/MCAL/GPIO_cfg.h"
+#include "GPIO.h"
+#include "GPIO_cfg.h"
 
 /********************************************************************************************************/
 /************************************************Defines*************************************************/

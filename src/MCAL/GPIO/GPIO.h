@@ -6,8 +6,8 @@
 /********************************************************************************************************/
 
 /* Include Libraries  */
-#include "../../lib/Errors.h"
-#include "../../lib/STD_TYPES.h"
+#include "Errors.h"
+#include "STD_TYPES.h"
 
 /* Driver Libraries   */
 #include "RCC.h"

@@ -3,11 +3,11 @@
 
 
 #include <stdint.h>
-#include "../include/MCAL/RCC.h"
-#include "../include/MCAL/GPIO.h"
-#include "../include/MCAL/GPIO_cfg.h"
-#include "../include/MCAL/STK.h"
-#include "../include/Service/Schedular.h"
+#include "RCC.h"
+#include "GPIO.h"
+#include "GPIO_cfg.h"
+#include "STK.h"
+#include "Schedular.h"
 
 
 extern GPIO_StrCfg_t Loc_arrStrGpios[NUM_OF_PINS];

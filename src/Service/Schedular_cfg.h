@@ -1,42 +1,33 @@
-#ifndef E__ITI_FADY_ARM_STM32F401CC_BLACKPILL_DRIVERS_INCLUDE_SERVICE_SCHEDULAR_H_
-#define E__ITI_FADY_ARM_STM32F401CC_BLACKPILL_DRIVERS_INCLUDE_SERVICE_SCHEDULAR_H_
-
-
+#ifndef SERVICE_SCHEDULAR_CFG_H_
+#define SERVICE_SCHEDULAR_CFG_H_
 
 /********************************************************************************************************/
 /************************************************Includes************************************************/
 /********************************************************************************************************/
-
-/* Include Libraries  */
-#include "../../lib/Errors.h"
-#include "../../lib/STD_TYPES.h"
-
-#include "../MCAL/STK.h"
-
-/* Driver Libraries   */
+#include "Schedular.h"
 
 /********************************************************************************************************/
 /************************************************Defines*************************************************/
 /********************************************************************************************************/
 
+#define TICK_TIME	50
+
+#define MAX_SUPPORTED_TASKS	3
+
+
+typedef enum
+{
+    Sched_runnble1,
+    Sched_runnble2,         
+    Sched_runnble3,         
+         
+    __NUM_OF_RUNNABLES    /**< Total number of runnables. Do not modify.**/
+} RunnableName_t;
 
 
 /********************************************************************************************************/
 /************************************************Types***************************************************/
 /********************************************************************************************************/
-
-typedef void (*runnable_t) (void);
-
-// for any configurations configurable by the use
-typedef struct
-{
-	char *name;
-	uint32_t first_delayMS;             // time until the task is first executed
-	uint32_t periodicity;
-	uint32_t priority;
-	runnable_t callback;
-	
-}runnableStr_t;
 
 
 
@@ -44,14 +35,17 @@ typedef struct
 /************************************************APIs****************************************************/
 /********************************************************************************************************/
 
-// To enable timers
-void sched_init(void);
-
-// all tasks must be created between the init and the start
-// Although our implementation will allow tasks to be run after starting sched
-void sched_start(void);
-
-//Res_t sched_registerrunnable(runnable_t *runnable);
 
 
-#endif // E__ITI_FADY_ARM_STM32F401CC_BLACKPILL_DRIVERS_INCLUDE_SERVICE_SCHEDULAR_H_
+
+
+
+
+
+
+
+
+
+
+
+#endif // SERVICE_SCHEDULAR_CFG_H_
