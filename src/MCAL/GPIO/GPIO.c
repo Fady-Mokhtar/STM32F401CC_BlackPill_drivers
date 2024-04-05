@@ -67,6 +67,8 @@ typedef struct
  * Mask for bit manipulation.
  * This mask is used for setting or clearing individual bits in a register.
  */
+
+#define MASK0           0x00
 #define MASK1           0x01
 
 /*
@@ -75,7 +77,31 @@ typedef struct
  */
 #define BSRR_CLR_MASK   0x10
 
+#define AFR_SIZE        0x04
 
+#define CLR_AFRL_MASK(AFNum)      (GPIO->GPIOx_AFRL &= ~(0b1111 << (AFNum * AFR_SIZE)))
+#define SET_AFRL_MASK(reqAF, AFNum)      (GPIO->GPIOx_AFRL |= ( reqAF << (AFNum * AFR_SIZE)))
+
+#define CLR_AFRH_MASK(AFNum)      (GPIO->GPIOx_AFRH &= ~(0b1111 << (AFNum * AFR_SIZE)))
+#define SET_AFRH_MASK(reqAF, AFNum)      (GPIO->GPIOx_AFRH |= ( reqAF << (AFNum * AFR_SIZE)))
+
+#define AFRL1_MASK  0
+#define AFRL2_MASK  1
+#define AFRL3_MASK  2
+#define AFRL4_MASK  3
+#define AFRL5_MASK  4
+#define AFRL6_MASK  5
+#define AFRL7_MASK  6
+#define AFRL8_MASK  7
+
+#define AFRH1_MASK  8
+#define AFRH2_MASK  9
+#define AFRH3_MASK  10
+#define AFRH4_MASK  11
+#define AFRH5_MASK  12
+#define AFRH6_MASK  13
+#define AFRH7_MASK  14
+#define AFRH8_MASK  15
 
 /********************************************************************************************************/
 /*********************************************APIs Implementation****************************************/
@@ -128,8 +154,22 @@ MCAL_ErrorStatus_t GPIO_InitPin(GPIO_StrCfg_t *Copy_strCfg_ptr)
             GPIO->GPIOx_PUPDR |= (Copy_strCfg_ptr[i].pupd << (Copy_strCfg_ptr[i].pin * 2));
             GPIO->GPIOx_MODER |= (Copy_strCfg_ptr[i].mode << (Copy_strCfg_ptr[i].pin * 2));
             GPIO->GPIOx_OTYPER |= (Copy_strCfg_ptr[i].out_type << (Copy_strCfg_ptr[i].pin * 2));
+            if (Copy_strCfg_ptr[i].pin < GPIO_PIN8)
+            {
+                CLR_AFRL_MASK(Copy_strCfg_ptr[i].pin);
+                SET_AFRL_MASK(Copy_strCfg_ptr[i].AF, Copy_strCfg_ptr[i].pin);
+            }
+            else if((Copy_strCfg_ptr[i].pin > GPIO_PIN7) && (Copy_strCfg_ptr[i].pin <= GPIO_PIN15))
+            {
+                CLR_AFRH_MASK((Copy_strCfg_ptr[i].pin - 0x08));
+                SET_AFRH_MASK((Copy_strCfg_ptr[i].AF), (Copy_strCfg_ptr[i].pin - 0x08));
+            }
+            else
+            {
+                Loc_GPIOErrorState = MCAL_WRONG_INPUTS;
+            }
+
         }
-        
         
     }
     

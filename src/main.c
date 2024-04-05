@@ -8,6 +8,8 @@
 #include "GPIO_cfg.h"
 #include "STK.h"
 #include "Schedular.h"
+#include "USART.h"
+#include "USART_PBcfg.h"
 
 
 extern GPIO_StrCfg_t Loc_arrStrGpios[NUM_OF_PINS];

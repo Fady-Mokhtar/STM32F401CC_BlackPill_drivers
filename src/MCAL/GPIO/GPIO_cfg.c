@@ -24,21 +24,23 @@ GPIO_StrCfg_t Loc_arrStrGpios[NUM_OF_PINS] = {
         [0] = 
         {
             .port = GPIO_PORTA,
-            .pin = GPIO_PIN0,
-            .mode = GPIO_MODE_Output,
+            .pin = GPIO_PIN9,
+            .mode = GPIO_MODE_Alternatefunction,
             .out_type = GPIO_OUTPUT_PushPull,
             .pupd = GPIO_Default,
-            .speed = GPIO_SPEED_Low
+            .speed = GPIO_SPEED_High,
+            .AF = GPIO_MASK_AF7
         },
 
         [1] = 
         {
-            .port = GPIO_PORTB,
-            .pin = GPIO_PIN0,
-            .mode = GPIO_MODE_Output,
+            .port = GPIO_PORTA,
+            .pin = GPIO_PIN10,
+            .mode = GPIO_MODE_Alternatefunction,
             .out_type = GPIO_OUTPUT_PushPull,
             .pupd = GPIO_Default,
-            .speed = GPIO_SPEED_Low
+            .speed = GPIO_SPEED_High,
+            .AF = GPIO_MASK_AF7
         },
 
         [2] = 

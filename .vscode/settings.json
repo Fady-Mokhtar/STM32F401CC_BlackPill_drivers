@@ -4,7 +4,8 @@
         "errors.h": "c",
         "stk.h": "c",
         "gpio_cfg.h": "c",
-        "rcc.h": "c"
+        "rcc.h": "c",
+        "usart.h": "c"
     },
     "C_Cpp.errorSquiggles": "disabled"
 }
