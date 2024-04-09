@@ -14,7 +14,7 @@
 /* By default systick using AHB/8 prescaler in STK-CTRL so that the clock is equal to 2_MHZ */
 
 #ifndef F_CPU
-#define F_CPU   16000000UL
+#define F_CPU   16000000UL            // MP_tick      
 #endif
 
 /* 
@@ -98,7 +98,7 @@ static STK_CBF_t g_app_cbf = NULL_t;
 /**
   \brief   Set Time in milliseconds
   \details Sets the time for the SysTick timer in milliseconds.
-           The maximum time that can be reached is 8 seconds.
+           The maximum time that can be reached is 8 seconds.   ()
   \param [in]      Copy_TimeReqMS  Time to set in milliseconds.
   \return                          Status indicating whether the operation was successful or not.
                                     - MCAL_OK: Operation successful.
@@ -162,7 +162,7 @@ MCALStatus_t STK_Stop(void)
     MCALStatus_t Loc_STKErrorState = MCAL_OK;
 
     /* Disable the SysTick timer */
-    STK->STK_CTRL |= STK_MASK_CTRL_DISABLE_Msk;
+    STK->STK_CTRL &= (~STK_MASK_CTRL_DISABLE_Msk);
 
     return Loc_STKErrorState;
 }

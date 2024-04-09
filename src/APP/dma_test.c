@@ -7,7 +7,10 @@
  */
 /* USER CODE END Header */
 
-#if APP == DMA_test
+//#if APP == DMA_test
+
+//#define dma_test
+#ifdef dma_test
 
 /* Includes ------------------------------------------------------------------*/
 #include "std_types.h"
@@ -82,7 +85,7 @@ int main(void)
 
     //NVIC_SetPriority(DMA2_Stream2_IRQn, 0);
     NVIC_EnableIRQ(DMA2_Stream2_IRQn);
-    
+
     /* DMA2_Stream7_IRQn interrupt configuration */
     // __NVIC_SetPriority(DMA2_Stream7_IRQn, 0);
     // __NVIC_EnableIRQ(DMA2_Stream7_IRQn);

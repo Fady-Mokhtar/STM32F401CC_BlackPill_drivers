@@ -11,7 +11,10 @@
         "common_macros.h": "c",
         "delay.h": "c",
         "dma.h": "c",
-        "nvic.h": "c"
+        "nvic.h": "c",
+        "gpio.h": "c",
+        "sched.h": "c",
+        "schedular.h": "c"
     },
     "C_Cpp.errorSquiggles": "disabled"
 }
