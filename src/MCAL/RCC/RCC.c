@@ -108,7 +108,7 @@ typedef struct
 /*********************************************APIs Implementation****************************************/
 /********************************************************************************************************/
 
-MCAL_ErrorStatus_t RCC_enableClock(RCC_SystemClock_t Clock)
+MCALStatus_t RCC_enableClock(RCC_SystemClock_t Clock)
 {
     /* Enable the clock*/
     RCC->CR |= Clock;
@@ -117,17 +117,17 @@ MCAL_ErrorStatus_t RCC_enableClock(RCC_SystemClock_t Clock)
     uint32_t timeout = RCC_TIMEOUT_VAL;
     while(!(RCC->CR & clockStatusMask) && timeout){timeout--;}
 
-    return (RCC->CR & clockStatusMask)? MCAL_OK : MCAL_NOK;
+    return (RCC->CR & clockStatusMask)? MCAL_OK : MCAL_ERROR;
 }
 
-MCAL_ErrorStatus_t RCC_disableClock(RCC_SystemClock_t Clock)
+MCALStatus_t RCC_disableClock(RCC_SystemClock_t Clock)
 {
     RCC->CR &= ~Clock;
     return MCAL_OK;
 }
 
 
-MCAL_ErrorStatus_t RCC_selectSystemClock(RCC_SystemClock_t SystemClock)
+MCALStatus_t RCC_selectSystemClock(RCC_SystemClock_t SystemClock)
 {
     uint32_t CFGRtmp = RCC->CFGR;
     CFGRtmp = (CFGRtmp & ~RCC_CFGR_SW_MASK) | (uint32_t)SystemClock;
@@ -137,7 +137,7 @@ MCAL_ErrorStatus_t RCC_selectSystemClock(RCC_SystemClock_t SystemClock)
 }
 
 
-MCAL_ErrorStatus_t RCC_getSystemClock(RCC_SystemClock_t *SystemClock)
+MCALStatus_t RCC_getSystemClock(RCC_SystemClock_t *SystemClock)
 {
     *SystemClock = (((RCC->CFGR) & RCC_CFGR_SWS_MASK) >> 2);
 
@@ -145,7 +145,7 @@ MCAL_ErrorStatus_t RCC_getSystemClock(RCC_SystemClock_t *SystemClock)
 }
 
 
-MCAL_ErrorStatus_t RCC_configurePLLClock(RCC_PLLConfig_t *PLLConfig)
+MCALStatus_t RCC_configurePLLClock(RCC_PLLConfig_t *PLLConfig)
 {
     uint32_t PLLCFGRtmp = RCC->PLLCFGR;
 
@@ -170,56 +170,56 @@ MCAL_ErrorStatus_t RCC_configurePLLClock(RCC_PLLConfig_t *PLLConfig)
 }
 
 
-MCAL_ErrorStatus_t RCC_enableAHB1Peripheral(RCC_AHB1Peri_t AHB1Peripheral)
+MCALStatus_t RCC_enableAHB1Peripheral(RCC_AHB1Peri_t AHB1Peripheral)
 {
     RCC->AHB1ENR |= AHB1Peripheral;
     return MCAL_OK;
 }
 
 
-MCAL_ErrorStatus_t RCC_enableAHB2Peripheral(RCC_AHB2Peri_t AHB2Peripheral)
+MCALStatus_t RCC_enableAHB2Peripheral(RCC_AHB2Peri_t AHB2Peripheral)
 {
     RCC->AHB2ENR |= AHB2Peripheral;
     return MCAL_OK;
 }
 
-MCAL_ErrorStatus_t RCC_enableAPB1Peripheral(RCC_APB1Peri_t APB1Peripheral)
+MCALStatus_t RCC_enableAPB1Peripheral(RCC_APB1Peri_t APB1Peripheral)
 {
     RCC->APB1ENR |= APB1Peripheral;
     return MCAL_OK;
 }
 
-MCAL_ErrorStatus_t RCC_enableAPB2Peripheral(RCC_APB2Peri_t APB2Peripheral)
+MCALStatus_t RCC_enableAPB2Peripheral(RCC_APB2Peri_t APB2Peripheral)
 {
     RCC->APB2ENR |= APB2Peripheral;
     return MCAL_OK;
 }
 
-MCAL_ErrorStatus_t RCC_disableAHB1Peripheral(RCC_AHB1Peri_t AHB1Peripheral)
+MCALStatus_t RCC_disableAHB1Peripheral(RCC_AHB1Peri_t AHB1Peripheral)
 {
     RCC->AHB1ENR &= ~AHB1Peripheral;
     return MCAL_OK;
 }
 
-MCAL_ErrorStatus_t RCC_disableAHB2Peripheral(RCC_AHB2Peri_t AHB2Peripheral)
+MCALStatus_t RCC_disableAHB2Peripheral(RCC_AHB2Peri_t AHB2Peripheral)
 {
     RCC->AHB2ENR &= ~AHB2Peripheral;
     return MCAL_OK;
 }
 
-MCAL_ErrorStatus_t RCC_disableAPB1Peripheral(RCC_APB1Peri_t APB1Peripheral)
+MCALStatus_t RCC_disableAPB1Peripheral(RCC_APB1Peri_t APB1Peripheral)
 {
     RCC->APB1ENR &= ~APB1Peripheral;
     return MCAL_OK;
 }
 
-MCAL_ErrorStatus_t RCC_disableAPB2Peripheral(RCC_APB2Peri_t APB2Peripheral)
+MCALStatus_t RCC_disableAPB2Peripheral(RCC_APB2Peri_t APB2Peripheral)
 {
     RCC->APB2ENR &= ~APB2Peripheral;
     return MCAL_OK;
 }
 
-MCAL_ErrorStatus_t RCC_selectSystemClockPrescalers(RCC_AHB1Prescaler_t AHB1Prescaler, RCC_APB1Prescaler_t APB1Prescaler, RCC_APB2Prescaler_t APB2Prescaler)
+MCALStatus_t RCC_selectSystemClockPrescalers(RCC_AHB1Prescaler_t AHB1Prescaler, RCC_APB1Prescaler_t APB1Prescaler, RCC_APB2Prescaler_t APB2Prescaler)
 {
     uint32_t CFGRtmp = RCC->CFGR;
 

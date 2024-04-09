@@ -154,7 +154,7 @@ typedef enum
 /**
   * @brief  Initializes a GPIO pin according to the provided configuration.
   * @param  Copy_strCfg_ptr: Pointer to a GPIO_StrCfg_t structure that contains the pin configuration.
-  * @retval MCAL_ErrorStatus_t: Status of the initialization process, can be SUCCESS or ERROR.
+  * @retval MCALStatus_t: Status of the initialization process, can be SUCCESS or ERROR.
   *
   * This function initializes a GPIO pin based on the configuration provided in the
   * GPIO_StrCfg_t structure pointed to by Copy_strCfg_ptr. The configuration includes
@@ -166,14 +166,14 @@ typedef enum
   *         It does not handle enabling the clock for the GPIO port.
   */
 
-MCAL_ErrorStatus_t GPIO_InitPin(GPIO_StrCfg_t *Copy_strCfg_ptr);
+MCALStatus_t GPIO_Init(GPIO_StrCfg_t *Copy_strCfg_ptr);
 
 /**
   * @brief  Sets the state of a GPIO pin.
   * @param  Port: Pointer to the GPIO port base address.
   * @param  Copy_PinNum: The pin number to set the state for.
   * @param  Copy_PinState: The desired state of the pin (GPIO_PIN_RESET or GPIO_PIN_SET).
-  * @retval MCAL_ErrorStatus_t: Status of the operation, can be SUCCESS or ERROR.
+  * @retval MCALStatus_t: Status of the operation, can be SUCCESS or ERROR.
   *
   * This function sets the state of the specified GPIO pin on the specified GPIO port
   * to the desired state (GPIO_PIN_RESET for low, GPIO_PIN_SET for high). It uses bitwise
@@ -185,14 +185,14 @@ MCAL_ErrorStatus_t GPIO_InitPin(GPIO_StrCfg_t *Copy_strCfg_ptr);
   *         It does not handle GPIO initialization or configuration.
   */
 
-MCAL_ErrorStatus_t GPIO_SetPinState(void *Port, GPIO_PINS_t Copy_PinNum, GPIO_PinState_t Copy_PinState);
+MCALStatus_t GPIO_SetPinState(void *Port, GPIO_PINS_t Copy_PinNum, GPIO_PinState_t Copy_PinState);
 
 /**
   * @brief  Toggle the state of a GPIO pin.
   * @param  Port: Pointer to the GPIO port base address.
   * @param  Copy_PinNum: The pin number to set the state for.
   * @param  Copy_PinState: The desired state of the pin (GPIO_PIN_RESET or GPIO_PIN_SET).
-  * @retval MCAL_ErrorStatus_t: Status of the operation, can be SUCCESS or ERROR.
+  * @retval MCALStatus_t: Status of the operation, can be SUCCESS or ERROR.
   *
   * This function sets the state of the specified GPIO pin on the specified GPIO port
   * to the desired state (GPIO_PIN_RESET for low, GPIO_PIN_SET for high). It uses bitwise
@@ -203,14 +203,14 @@ MCAL_ErrorStatus_t GPIO_SetPinState(void *Port, GPIO_PINS_t Copy_PinNum, GPIO_Pi
   * @note   This function assumes that the GPIO port has already been configured and initialized.
   *         It does not handle GPIO initialization or configuration.
   */
-MCAL_ErrorStatus_t GPIO_TogglePinState(void *port, GPIO_PINS_t Copy_PinNum);
+MCALStatus_t GPIO_TogglePinState(void *port, GPIO_PINS_t Copy_PinNum);
 
 /**
   * @brief  Gets the state of a GPIO pin.
   * @param  Port: Pointer to the GPIO port base address.
   * @param  Copy_PinNum: The pin number to get the state for.
   * @param  Copy_PinState: Pointer to a variable to store the pin state (GPIO_PIN_RESET or GPIO_PIN_SET).
-  * @retval MCAL_ErrorStatus_t: Status of the operation, can be SUCCESS or ERROR.
+  * @retval MCALStatus_t: Status of the operation, can be SUCCESS or ERROR.
   *
   * This function retrieves the current state of the specified GPIO pin on the specified GPIO port
   * and stores it in the variable pointed to by Copy_PinState. It reads the specific pin's state
@@ -221,9 +221,9 @@ MCAL_ErrorStatus_t GPIO_TogglePinState(void *port, GPIO_PINS_t Copy_PinNum);
   *         It does not handle GPIO initialization or configuration.
   */
 
-MCAL_ErrorStatus_t GPIO_GetPinState(void *Port, GPIO_PINS_t Copy_PinNum, uint8_t *Copy_PinState);
+MCALStatus_t GPIO_GetPinState(void *Port, GPIO_PINS_t Copy_PinNum, uint8_t *Copy_PinState);
 
-MCAL_ErrorStatus_t GPIO_GetOutState(void *port, GPIO_PINS_t Copy_PinNum, uint8_t* Copy_PinState);
+MCALStatus_t GPIO_GetOutState(void *port, GPIO_PINS_t Copy_PinNum, uint8_t* Copy_PinState);
 
 
 

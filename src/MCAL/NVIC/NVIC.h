@@ -27,7 +27,7 @@
                           - MCAL_OK: Operation successful.
                           - MCAL_WRONG_INPUTS: Invalid input parameters.
 */
-MCAL_ErrorStatus_t NVIC_EnableIRQ(IRQn_t IRQn);
+MCALStatus_t NVIC_EnableIRQ(IRQn_t IRQn);
 
 /**
   \brief   Disable Interrupt
@@ -37,7 +37,7 @@ MCAL_ErrorStatus_t NVIC_EnableIRQ(IRQn_t IRQn);
                           - MCAL_OK: Operation successful.
                           - MCAL_WRONG_INPUTS: Invalid input parameters.
 */
-MCAL_ErrorStatus_t NVIC_DisableIRQ(IRQn_t IRQn);
+MCALStatus_t NVIC_DisableIRQ(IRQn_t IRQn);
 
 /**
   \brief   Get Pending Interrupt
@@ -48,7 +48,7 @@ MCAL_ErrorStatus_t NVIC_DisableIRQ(IRQn_t IRQn);
                           - MCAL_OK: Operation successful.
                           - MCAL_WRONG_INPUTS: Invalid input parameters.
 */
-MCAL_ErrorStatus_t NVIC_GetPendingIRQ (IRQn_t IRQn, uint32_t* Copy_PendingState);
+MCALStatus_t NVIC_GetPendingIRQ (IRQn_t IRQn, uint32_t* Copy_PendingState);
 
 /**
   \brief   Set Pending Interrupt
@@ -58,7 +58,7 @@ MCAL_ErrorStatus_t NVIC_GetPendingIRQ (IRQn_t IRQn, uint32_t* Copy_PendingState)
                           - MCAL_OK: Operation successful.
                           - MCAL_WRONG_INPUTS: Invalid input parameters.
 */
-MCAL_ErrorStatus_t NVIC_SetPendingIRQ (IRQn_t IRQn);
+MCALStatus_t NVIC_SetPendingIRQ (IRQn_t IRQn);
 
 /**
   \brief   Clear Pending Interrupt
@@ -68,7 +68,7 @@ MCAL_ErrorStatus_t NVIC_SetPendingIRQ (IRQn_t IRQn);
                           - MCAL_OK: Operation successful.
                           - MCAL_WRONG_INPUTS: Invalid input parameters.
 */
-MCAL_ErrorStatus_t NVIC_ClearPendingIRQ (IRQn_t IRQn);
+MCALStatus_t NVIC_ClearPendingIRQ (IRQn_t IRQn);
 
 /**
   \brief   Get Active Interrupt
@@ -79,7 +79,7 @@ MCAL_ErrorStatus_t NVIC_ClearPendingIRQ (IRQn_t IRQn);
                           - MCAL_OK: Operation successful.
                           - MCAL_WRONG_INPUTS: Invalid input parameters.
 */
-MCAL_ErrorStatus_t NVIC_GetActive (IRQn_t IRQn, uint32_t* Copy_PendingState);
+MCALStatus_t NVIC_GetActive (IRQn_t IRQn, uint32_t* Copy_PendingState);
 
 /**
   \brief   Set Interrupt Priority
@@ -90,7 +90,7 @@ MCAL_ErrorStatus_t NVIC_GetActive (IRQn_t IRQn, uint32_t* Copy_PendingState);
                           - MCAL_OK: Operation successful.
                           - MCAL_WRONG_INPUTS: Invalid input parameters.
 */
-MCAL_ErrorStatus_t NVIC_SetPriority (IRQn_t IRQn, uint32_t priority);
+MCALStatus_t NVIC_SetPriority (IRQn_t IRQn, uint32_t priority);
 
 /**
   \brief   Get Interrupt Priority
@@ -101,7 +101,7 @@ MCAL_ErrorStatus_t NVIC_SetPriority (IRQn_t IRQn, uint32_t priority);
                           - MCAL_OK: Operation successful.
                           - MCAL_WRONG_INPUTS: Invalid input parameters.
 */
-MCAL_ErrorStatus_t NVIC_GetPriority (IRQn_t IRQn, uint32_t* Copy_PendingState);
+MCALStatus_t NVIC_GetPriority (IRQn_t IRQn, uint32_t* Copy_PendingState);
 
 /**
   \brief   System Reset

@@ -104,9 +104,9 @@ static STK_CBF_t g_app_cbf = NULL_t;
                                     - MCAL_OK: Operation successful.
                                     - MCAL_WRONG_INPUTS: Invalid input parameters.
 */
-MCAL_ErrorStatus_t STK_SetTime_ms(uint32_t Copy_TimeReqMS)
+MCALStatus_t STK_SetTime_ms(uint32_t Copy_TimeReqMS)
 {
-    MCAL_ErrorStatus_t Loc_STKErrorState = MCAL_OK;
+    MCALStatus_t Loc_STKErrorState = MCAL_OK;
 
     /* Disable the SysTick clock source (AHB/8)*/
     STK->STK_CTRL &= ~(STK_MASK_CTRL_CLKSOURCE_Msk);
@@ -140,9 +140,9 @@ MCAL_ErrorStatus_t STK_SetTime_ms(uint32_t Copy_TimeReqMS)
   \return  Status indicating whether the operation was successful or not.
            - MCAL_OK: Operation successful.
 */
-MCAL_ErrorStatus_t STK_Start(void)
+MCALStatus_t STK_Start(void)
 {
-    MCAL_ErrorStatus_t Loc_STKErrorState = MCAL_OK;
+    MCALStatus_t Loc_STKErrorState = MCAL_OK;
 
     STK->STK_VAL = 0;
     /* Enable the SysTick timer */
@@ -157,9 +157,9 @@ MCAL_ErrorStatus_t STK_Start(void)
   \return  Status indicating whether the operation was successful or not.
            - MCAL_OK: Operation successful.
 */
-MCAL_ErrorStatus_t STK_Stop(void)
+MCALStatus_t STK_Stop(void)
 {
-    MCAL_ErrorStatus_t Loc_STKErrorState = MCAL_OK;
+    MCALStatus_t Loc_STKErrorState = MCAL_OK;
 
     /* Disable the SysTick timer */
     STK->STK_CTRL |= STK_MASK_CTRL_DISABLE_Msk;
@@ -174,9 +174,9 @@ MCAL_ErrorStatus_t STK_Stop(void)
   \return                            Status indicating whether the operation was successful or not.
                                      - MCAL_OK: Operation successful.
 */
-MCAL_ErrorStatus_t STK_IsExpire(uint32_t *Copy_ExpireStatus)
+MCALStatus_t STK_IsExpire(uint32_t *Copy_ExpireStatus)
 {
-    MCAL_ErrorStatus_t Loc_STKErrorState = MCAL_OK;
+    MCALStatus_t Loc_STKErrorState = MCAL_OK;
 
     /* Check if the COUNTFLAG bit is set in the SysTick control register */
     if ((STK->STK_CTRL & STK_MASK_CTRL_COUNTFLAG_Msk) != 0)
@@ -198,9 +198,9 @@ MCAL_ErrorStatus_t STK_IsExpire(uint32_t *Copy_ExpireStatus)
   \return                            Status indicating whether the operation was successful or not.
                                      - MCAL_OK: Operation successful.
 */
-MCAL_ErrorStatus_t STK_SetCallBack(STK_CBF_t Copy_CallBackAddr)
+MCALStatus_t STK_SetCallBack(STK_CBF_t Copy_CallBackAddr)
 {
-    MCAL_ErrorStatus_t Loc_STKErrorState = MCAL_OK;
+    MCALStatus_t Loc_STKErrorState = MCAL_OK;
 
     /* Set the global callback function pointer */
     g_app_cbf = Copy_CallBackAddr;

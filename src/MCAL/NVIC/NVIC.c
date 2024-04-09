@@ -56,9 +56,9 @@ typedef struct
   \param [in]      IRQn  Device specific interrupt number.
   \note    IRQn must not be negative.
 */           
-MCAL_ErrorStatus_t NVIC_EnableIRQ(IRQn_t IRQn)                                                 
+MCALStatus_t NVIC_EnableIRQ(IRQn_t IRQn)                                                 
 {
-    MCAL_ErrorStatus_t Loc_enumReturnStatus = MCAL_OK;
+    MCALStatus_t Loc_enumReturnStatus = MCAL_OK;
 
     if(IRQn >= 0)
     {
@@ -92,9 +92,9 @@ __STATIC_INLINE void __NVIC_EnableIRQ(IRQn_Type IRQn)
                           - MCAL_OK: Operation successful.
                           - MCAL_WRONG_INPUTS: Invalid input parameters.
 */           
-MCAL_ErrorStatus_t NVIC_DisableIRQ(IRQn_t IRQn)
+MCALStatus_t NVIC_DisableIRQ(IRQn_t IRQn)
 {
-    MCAL_ErrorStatus_t Loc_enumReturnStatus = MCAL_OK; 
+    MCALStatus_t Loc_enumReturnStatus = MCAL_OK; 
 
     if(IRQn >= 0)
     {
@@ -116,9 +116,9 @@ MCAL_ErrorStatus_t NVIC_DisableIRQ(IRQn_t IRQn)
                           - MCAL_OK: Operation successful.
                           - MCAL_WRONG_INPUTS: Invalid input parameters.
 */           
-MCAL_ErrorStatus_t NVIC_SetPendingIRQ (IRQn_t IRQn)
+MCALStatus_t NVIC_SetPendingIRQ (IRQn_t IRQn)
 {
-    MCAL_ErrorStatus_t Loc_enumReturnStatus = MCAL_OK;
+    MCALStatus_t Loc_enumReturnStatus = MCAL_OK;
 
     if(IRQn >= 0)
     {
@@ -140,9 +140,9 @@ MCAL_ErrorStatus_t NVIC_SetPendingIRQ (IRQn_t IRQn)
                           - MCAL_OK: Operation successful.
                           - MCAL_WRONG_INPUTS: Invalid input parameters.
 */           
-MCAL_ErrorStatus_t NVIC_ClearPendingIRQ (IRQn_t IRQn)
+MCALStatus_t NVIC_ClearPendingIRQ (IRQn_t IRQn)
 {
-    MCAL_ErrorStatus_t Loc_enumReturnStatus = MCAL_OK;
+    MCALStatus_t Loc_enumReturnStatus = MCAL_OK;
 
     if(IRQn >= 0)
     {
@@ -166,9 +166,9 @@ MCAL_ErrorStatus_t NVIC_ClearPendingIRQ (IRQn_t IRQn)
                                 - MCAL_OK: Operation successful.
                                 - MCAL_WRONG_INPUTS: Invalid input parameters.
 */           
-MCAL_ErrorStatus_t NVIC_GetPendingIRQ (IRQn_t IRQn, uint32_t* Copy_PendingState)
+MCALStatus_t NVIC_GetPendingIRQ (IRQn_t IRQn, uint32_t* Copy_PendingState)
 {
-    MCAL_ErrorStatus_t Loc_enumReturnStatus = MCAL_OK;
+    MCALStatus_t Loc_enumReturnStatus = MCAL_OK;
     if(IRQn >= 0)
     {
         *Copy_PendingState = (NVIC->NVIC_ISPR[IRQn/32] << (IRQn % 32));  // Get the pending state of the interrupt
@@ -191,9 +191,9 @@ MCAL_ErrorStatus_t NVIC_GetPendingIRQ (IRQn_t IRQn, uint32_t* Copy_PendingState)
                                 - MCAL_OK: Operation successful.
                                 - MCAL_WRONG_INPUTS: Invalid input parameters.
 */           
-MCAL_ErrorStatus_t NVIC_GetActive (IRQn_t IRQn, uint32_t* Copy_PendingState)
+MCALStatus_t NVIC_GetActive (IRQn_t IRQn, uint32_t* Copy_PendingState)
 {
-    MCAL_ErrorStatus_t Loc_enumReturnStatus = MCAL_OK;
+    MCALStatus_t Loc_enumReturnStatus = MCAL_OK;
     if(IRQn >= 0)
     {
         *Copy_PendingState = (NVIC->NVIC_IABR[IRQn/32] << (IRQn % 32));  // Get the active state of the interrupt
@@ -216,9 +216,9 @@ MCAL_ErrorStatus_t NVIC_GetActive (IRQn_t IRQn, uint32_t* Copy_PendingState)
   \param [in]  priority  Priority to set.
   \note    The priority cannot be set for every processor exception.
  */
-MCAL_ErrorStatus_t NVIC_SetPriority (IRQn_t IRQn, uint32_t priority)
+MCALStatus_t NVIC_SetPriority (IRQn_t IRQn, uint32_t priority)
 {
-    MCAL_ErrorStatus_t Loc_enumReturnStatus = MCAL_OK;
+    MCALStatus_t Loc_enumReturnStatus = MCAL_OK;
 
     if ((sint32_t)(IRQn) >= 0)
     {
@@ -261,7 +261,7 @@ __STATIC_INLINE void __NVIC_SetPriority(IRQn_Type IRQn, uint32_t priority)
  */
 uint8_t NVIC_GetPriority (IRQn_t IRQn, uint32_t* PeriorityStatus)
 {
-    MCAL_ErrorStatus_t Loc_enumReturnStatus = MCAL_OK;
+    MCALStatus_t Loc_enumReturnStatus = MCAL_OK;
     if ((sint32_t)(IRQn) >= 0)
     {
       *PeriorityStatus = (((uint32_t)NVIC->NVIC_IPR[((uint32_t)IRQn)]               >> (8U - __NVIC_PRIO_BITS)));
@@ -300,9 +300,9 @@ __STATIC_INLINE uint32_t __NVIC_GetPriority(IRQn_Type IRQn)
                           - MCAL_OK: Operation successful.
                           - MCAL_WRONG_INPUTS: Invalid input parameters.
 */           
-MCAL_ErrorStatus_t SET_Software_Interrupt(IRQn_t IRQn)
+MCALStatus_t SET_Software_Interrupt(IRQn_t IRQn)
 {
-    MCAL_ErrorStatus_t Loc_enumReturnStatus = MCAL_OK;
+    MCALStatus_t Loc_enumReturnStatus = MCAL_OK;
     
     if (IRQn >= 0)
     {

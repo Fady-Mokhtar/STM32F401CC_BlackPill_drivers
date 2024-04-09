@@ -9,7 +9,8 @@
 /* Includes ------------------------------------------------------------------*/
 //#include "main.h"
 #include "stm32f4xx_it.h"
-#include "USART.h"
+#include "usart.h"
+#include "dma.h"
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 /* USER CODE END Includes */
@@ -47,7 +48,8 @@
 /* External variables --------------------------------------------------------*/
 //extern DMA_HandleTypeDef hdma_usart1_tx;
 //extern DMA_HandleTypeDef hdma_usart1_rx;
-extern USART_ManagerStruct USART1Manager;
+extern USART_ManagerStruct usart1Manager;
+extern DMA_HandleTypeDef dma2Manager_stream2_usart1_rx;
 /* USER CODE BEGIN EV */
 
 /* USER CODE END EV */
@@ -199,7 +201,7 @@ void USART1_IRQHandler(void)
   /* USER CODE BEGIN USART1_IRQn 0 */
 
   /* USER CODE END USART1_IRQn 0 */
-  USART_IRQHandler(& USART1Manager);
+  MCAL_USART_IRQHandler(&usart1Manager);
   /* USER CODE BEGIN USART1_IRQn 1 */
 
   /* USER CODE END USART1_IRQn 1 */
@@ -208,30 +210,30 @@ void USART1_IRQHandler(void)
 /**
   * @brief This function handles DMA2 stream2 global interrupt.
   */
-// void DMA2_Stream2_IRQHandler(void)
-// {
-//   /* USER CODE BEGIN DMA2_Stream2_IRQn 0 */
+void DMA2_Stream2_IRQHandler(void)
+{
+  /* USER CODE BEGIN DMA2_Stream2_IRQn 0 */
 
-//   /* USER CODE END DMA2_Stream2_IRQn 0 */
-//   HAL_DMA_IRQHandler(&hdma_usart1_rx);
-//   /* USER CODE BEGIN DMA2_Stream2_IRQn 1 */
+  /* USER CODE END DMA2_Stream2_IRQn 0 */
+  MCAL_DMA_IRQHandler(&dma2Manager_stream2_usart1_rx);
+  /* USER CODE BEGIN DMA2_Stream2_IRQn 1 */
 
-//   /* USER CODE END DMA2_Stream2_IRQn 1 */
-// }
+  /* USER CODE END DMA2_Stream2_IRQn 1 */
+}
 
 /**
   * @brief This function handles DMA2 stream7 global interrupt.
   */
-// void DMA2_Stream7_IRQHandler(void)
-// {
-//   /* USER CODE BEGIN DMA2_Stream7_IRQn 0 */
+void DMA2_Stream7_IRQHandler(void)
+{
+  /* USER CODE BEGIN DMA2_Stream7_IRQn 0 */
 
-//   /* USER CODE END DMA2_Stream7_IRQn 0 */
-//   HAL_DMA_IRQHandler(&hdma_usart1_tx);
-//   /* USER CODE BEGIN DMA2_Stream7_IRQn 1 */
+  /* USER CODE END DMA2_Stream7_IRQn 0 */
+  
+  /* USER CODE BEGIN DMA2_Stream7_IRQn 1 */
 
-//   /* USER CODE END DMA2_Stream7_IRQn 1 */
-// }
+  /* USER CODE END DMA2_Stream7_IRQn 1 */
+}
 
 /* USER CODE BEGIN 1 */
 

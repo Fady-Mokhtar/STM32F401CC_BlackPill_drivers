@@ -115,9 +115,9 @@ typedef struct
                - MCAL_NULL_PTR: Null pointer provided as input.
                - MCAL_WRONG_INPUTS: Invalid input parameters.
 */
-MCAL_ErrorStatus_t GPIO_InitPin(GPIO_StrCfg_t *Copy_strCfg_ptr)
+MCALStatus_t GPIO_Init(GPIO_StrCfg_t *Copy_strCfg_ptr)
 { 
-    MCAL_ErrorStatus_t Loc_GPIOErrorState = MCAL_OK;
+    MCALStatus_t Loc_GPIOErrorState = MCAL_OK;
 
     if(Copy_strCfg_ptr == NULL_t)
     {
@@ -147,7 +147,7 @@ MCAL_ErrorStatus_t GPIO_InitPin(GPIO_StrCfg_t *Copy_strCfg_ptr)
     {
         
         uint8_t i;
-        for (i = 0; i < NUM_OF_PINS; i++)
+        for (i = 0; i < __NUM_OF_PINS; i++)
         {
             RCC_enableAHB1Peripheral(GPIO_MASK_RCC_PORT);               //1st Method
             GPIO->GPIOx_OSPEEDR |= (Copy_strCfg_ptr[i].speed << (Copy_strCfg_ptr[i].pin * 2));
@@ -187,9 +187,9 @@ MCAL_ErrorStatus_t GPIO_InitPin(GPIO_StrCfg_t *Copy_strCfg_ptr)
                - MCAL_OK: Operation successful.
                - MCAL_WRONG_INPUTS: Invalid input parameters.
 */
-MCAL_ErrorStatus_t GPIO_SetPinState(void *port, GPIO_PINS_t Copy_PinNum, GPIO_PinState_t Copy_PinState)
+MCALStatus_t GPIO_SetPinState(void *port, GPIO_PINS_t Copy_PinNum, GPIO_PinState_t Copy_PinState)
 {
-    MCAL_ErrorStatus_t Loc_GPIOErrorState = MCAL_OK;
+    MCALStatus_t Loc_GPIOErrorState = MCAL_OK;
 
     if (Copy_PinState == 0)
     {
@@ -231,9 +231,9 @@ MCAL_ErrorStatus_t GPIO_SetPinState(void *port, GPIO_PINS_t Copy_PinNum, GPIO_Pi
   \return      Status indicating whether the operation was successful or not.
                - MCAL_OK: Operation successful.
 */
-MCAL_ErrorStatus_t GPIO_GetPinState(void *port, GPIO_PINS_t Copy_PinNum, uint8_t* Copy_PinState)
+MCALStatus_t GPIO_GetPinState(void *port, GPIO_PINS_t Copy_PinNum, uint8_t* Copy_PinState)
 {
-    MCAL_ErrorStatus_t Loc_GPIOErrorState = MCAL_OK;
+    MCALStatus_t Loc_GPIOErrorState = MCAL_OK;
 
     *Copy_PinState = ((GPIOPINx->GPIOx_IDR >> Copy_PinNum) & MASK1);
 
@@ -248,9 +248,9 @@ MCAL_ErrorStatus_t GPIO_GetPinState(void *port, GPIO_PINS_t Copy_PinNum, uint8_t
   \return      Status indicating whether the operation was successful or not.
                - MCAL_OK: Operation successful.
 */
-MCAL_ErrorStatus_t GPIO_TogglePinState(void *port, GPIO_PINS_t Copy_PinNum)
+MCALStatus_t GPIO_TogglePinState(void *port, GPIO_PINS_t Copy_PinNum)
 {
-    MCAL_ErrorStatus_t Loc_GPIOErrorState = MCAL_OK;
+    MCALStatus_t Loc_GPIOErrorState = MCAL_OK;
 
     GPIOPINx->GPIOx_ODR ^= MASK1 << Copy_PinNum;
     

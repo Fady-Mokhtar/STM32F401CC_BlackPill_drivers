@@ -17,6 +17,7 @@
 #ifndef _STD_TYPES_H
 #define _STD_TYPES_H
 
+#define __IO		volatile
 
 typedef enum 
 {
@@ -40,8 +41,9 @@ typedef unsigned char bool_t;
 #define LOW         (0u)
 
 /* NULL Value */
-#define NULL_t	(void*)0
-#define NULL	(void*)0
+#define NULL_PTR	(void*)0
+#define NULL_t		(void*)0
+#define NULL		(void*)0
 
 typedef unsigned char* 			pu8_t;
 typedef unsigned char* 			pu16_t;
