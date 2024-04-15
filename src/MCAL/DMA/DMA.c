@@ -14,6 +14,7 @@
 #include "common_macros.h"
 #include "STD_TYPES.h"
 #include "rcc.h"
+#include "NVIC.h"
 #include "Errors.h"
 
 
@@ -458,6 +459,59 @@ void DMA_Start_IT(DMA_HandleTypeDef *streamManager, uint32_t SrcAddress, uint32_
 	//     /* Return error status */
 	//     status = HAL_BUSY;
 	//   }
+
+	/* Enable DMA global interrupts */
+        switch((uint32_t)streamManager->Instance){
+            case (uint32_t)DMA1_Stream0:
+                NVIC_EnableIRQ(DMA1_Stream0_IRQn);
+                break;
+            case (uint32_t)DMA1_Stream1:
+                NVIC_EnableIRQ(DMA1_Stream1_IRQn);
+                break;
+            case (uint32_t)DMA1_Stream2:
+                NVIC_EnableIRQ(DMA1_Stream2_IRQn);
+                break;
+            case (uint32_t)DMA1_Stream3:
+                NVIC_EnableIRQ(DMA1_Stream3_IRQn);
+                break;
+            case (uint32_t)DMA1_Stream4:
+                NVIC_EnableIRQ(DMA1_Stream4_IRQn);
+                break;
+            case (uint32_t)DMA1_Stream5:
+                NVIC_EnableIRQ(DMA1_Stream5_IRQn);
+                break;
+            case (uint32_t)DMA1_Stream6:
+                NVIC_EnableIRQ(DMA1_Stream6_IRQn);
+                break;
+            case (uint32_t)DMA1_Stream7:
+                NVIC_EnableIRQ(DMA1_Stream7_IRQn);
+                break;
+            case (uint32_t)DMA2_Stream0:
+                NVIC_EnableIRQ(DMA2_Stream0_IRQn);
+                break;
+            case (uint32_t)DMA2_Stream1:
+                NVIC_EnableIRQ(DMA2_Stream1_IRQn);
+                break;
+            case (uint32_t)DMA2_Stream2:
+                NVIC_EnableIRQ(DMA2_Stream2_IRQn);
+                break;
+            case (uint32_t)DMA2_Stream3:
+                NVIC_EnableIRQ(DMA2_Stream3_IRQn);
+                break;
+            case (uint32_t)DMA2_Stream4:
+                NVIC_EnableIRQ(DMA2_Stream4_IRQn);
+                break;
+            case (uint32_t)DMA2_Stream5:
+                NVIC_EnableIRQ(DMA2_Stream5_IRQn);
+                break;
+            case (uint32_t)DMA2_Stream6:
+                NVIC_EnableIRQ(DMA2_Stream6_IRQn);
+                break;
+            case (uint32_t)DMA2_Stream7:
+                NVIC_EnableIRQ(DMA2_Stream7_IRQn);
+                break;
+
+        }
 
 	return;
 }

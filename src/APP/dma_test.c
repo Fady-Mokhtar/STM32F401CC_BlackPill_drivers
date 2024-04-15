@@ -7,7 +7,7 @@
  */
 /* USER CODE END Header */
 
-//#if APP == DMA_test
+// #if APP == DMA_test
 
 //#define dma_test
 #ifdef dma_test
@@ -23,7 +23,7 @@
 #include "nvic.h"
 
 //-----------init configuration sets------
-extern GPIO_StrCfg_t Loc_arrStrGpios[__NUM_OF_PINS];
+extern GPIO_StrCfg_t Loc_arrStrGpios[__NUM_OF_PINS_DMA];
 //------------managers & handlers----------
 extern USART_ManagerStruct usart1Manager;
 extern DMA_HandleTypeDef dma2Manager_stream2_usart1_rx;
@@ -39,7 +39,7 @@ int main(void)
 {
 
     /* Initialize all configured peripherals */
-    GPIO_Init(Loc_arrStrGpios);
+    GPIO_Init(Loc_arrStrGpios, __NUM_OF_PINS_DMA);
     USART_Init(&usart1Manager);
     // I2C_Init(1, &I2cConfigurationSet);
     // DMA_Init(&dma2Manager_stream2_usart1_rx);
@@ -83,7 +83,7 @@ int main(void)
     // NVIC_SetPriority(USART1_IRQn, 0);
     // NVIC_EnableIRQ(USART1_IRQn);
 
-    //NVIC_SetPriority(DMA2_Stream2_IRQn, 0);
+    // NVIC_SetPriority(DMA2_Stream2_IRQn, 0);
     NVIC_EnableIRQ(DMA2_Stream2_IRQn);
 
     /* DMA2_Stream7_IRQn interrupt configuration */
@@ -96,15 +96,21 @@ int main(void)
     // DMA_start(&dma2Manager_stream0_memtomem, (uint32)&srcVariable, (uint32)&dstVariable, 1);
     USART_Receive_DMA(&usart1Manager, &variable1, 2);
 
-
     // while1
     while (1)
     {
-        if (variable1 == variable2)
+        if (variable1[0] == variable2[0])
         {
             // success
             while (1)
             {
+                if (variable1[1] == variable2[1])
+                {
+                    // success
+                    while (1)
+                    {
+                    }
+                }
             }
         }
     }

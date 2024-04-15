@@ -8,6 +8,7 @@
 #include "dma.h"
 
 extern DMA_HandleTypeDef dma2Manager_stream2_usart1_rx;
+extern DMA_HandleTypeDef dma2Manager_stream7_usart1_tx;
 
 //USART
 // this must be extern in the main or in the .h file
@@ -27,11 +28,11 @@ USART_ManagerStruct usart1Manager={
 	.pRxBuffPtr	= NULL_PTR,
 	.RxXferSize	= 0,
 	.RxXferCount= 0,
-	.TxState		= USART_STATE_RESET,
-	.RxState		= USART_STATE_RESET,
+	.TxState	= USART_STATE_RESET,
+	.RxState	= USART_STATE_RESET,
 	.ErrorCode	= USART_ERROR_NONE,
 	.hdmarx = &dma2Manager_stream2_usart1_rx,
-	.hdmatx = NULL_PTR
+	.hdmatx = &dma2Manager_stream7_usart1_tx
 };
 
 // usart1Manager.ErrorCode = 0;

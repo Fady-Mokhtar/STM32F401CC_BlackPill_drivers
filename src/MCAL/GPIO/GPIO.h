@@ -167,7 +167,7 @@ typedef enum
   *         It does not handle enabling the clock for the GPIO port.
   */
 
-MCALStatus_t GPIO_Init(GPIO_StrCfg_t *Copy_strCfg_ptr);
+MCALStatus_t GPIO_Init(GPIO_StrCfg_t *Copy_strCfg_ptr, uint8_t NUM_OF_PINS);
 
 /**
   * @brief  Sets the state of a GPIO pin.

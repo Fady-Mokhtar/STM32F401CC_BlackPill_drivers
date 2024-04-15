@@ -20,7 +20,7 @@ HALStatus_t LED_Init()
         Led[index].out_type = GPIO_OUTPUT_PushPull;
         Led[index].pupd = GPIO_NO_PUPD;
     }
-    LOC_Status = GPIO_Init(Led);
+    LOC_Status = GPIO_Init(Led, __LED_Num);
     return LOC_Status;
 }
 

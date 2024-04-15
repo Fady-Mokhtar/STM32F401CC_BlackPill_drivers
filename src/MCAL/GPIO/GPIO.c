@@ -115,7 +115,7 @@ typedef struct
                - MCAL_NULL_PTR: Null pointer provided as input.
                - MCAL_WRONG_INPUTS: Invalid input parameters.
 */
-MCALStatus_t GPIO_Init(GPIO_StrCfg_t *Copy_strCfg_ptr)
+MCALStatus_t GPIO_Init(GPIO_StrCfg_t *Copy_strCfg_ptr, uint8_t NUM_OF_PINS)
 { 
     MCALStatus_t Loc_GPIOErrorState = MCAL_OK;
 
@@ -147,26 +147,29 @@ MCALStatus_t GPIO_Init(GPIO_StrCfg_t *Copy_strCfg_ptr)
     {
         
         uint8_t i;
-        for (i = 0; i < __NUM_OF_PINS; i++)
+        for (i = 0; i < NUM_OF_PINS; i++)
         {
             RCC_enableAHB1Peripheral(GPIO_MASK_RCC_PORT);               //1st Method
             GPIO->GPIOx_OSPEEDR |= (Copy_strCfg_ptr[i].speed << (Copy_strCfg_ptr[i].pin * 2));
             GPIO->GPIOx_PUPDR |= (Copy_strCfg_ptr[i].pupd << (Copy_strCfg_ptr[i].pin * 2));
             GPIO->GPIOx_MODER |= (Copy_strCfg_ptr[i].mode << (Copy_strCfg_ptr[i].pin * 2));
             GPIO->GPIOx_OTYPER |= (Copy_strCfg_ptr[i].out_type << (Copy_strCfg_ptr[i].pin * 2));
-            if (Copy_strCfg_ptr[i].pin < GPIO_PIN8)
+            if (Copy_strCfg_ptr[i].mode == GPIO_MODE_Alternatefunction)
             {
-                CLR_AFRL_MASK(Copy_strCfg_ptr[i].pin);
-                SET_AFRL_MASK(Copy_strCfg_ptr[i].AF, Copy_strCfg_ptr[i].pin);
-            }
-            else if((Copy_strCfg_ptr[i].pin > GPIO_PIN7) && (Copy_strCfg_ptr[i].pin <= GPIO_PIN15))
-            {
-                CLR_AFRH_MASK((Copy_strCfg_ptr[i].pin - 0x08));
-                SET_AFRH_MASK((Copy_strCfg_ptr[i].AF), (Copy_strCfg_ptr[i].pin - 0x08));
-            }
-            else
-            {
-                Loc_GPIOErrorState = MCAL_WRONG_INPUTS;
+                if (Copy_strCfg_ptr[i].pin < GPIO_PIN8)
+                {
+                    CLR_AFRL_MASK(Copy_strCfg_ptr[i].pin);
+                    SET_AFRL_MASK(Copy_strCfg_ptr[i].AF, Copy_strCfg_ptr[i].pin);
+                }
+                else if((Copy_strCfg_ptr[i].pin > GPIO_PIN7) && (Copy_strCfg_ptr[i].pin <= GPIO_PIN15))
+                {
+                    CLR_AFRH_MASK((Copy_strCfg_ptr[i].pin - 0x08));
+                    SET_AFRH_MASK((Copy_strCfg_ptr[i].AF), (Copy_strCfg_ptr[i].pin - 0x08));
+                }
+                else
+                {
+                    Loc_GPIOErrorState = MCAL_WRONG_INPUTS;
+                }
             }
 
         }

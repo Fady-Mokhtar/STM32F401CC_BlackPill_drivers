@@ -5,10 +5,16 @@
 
 const LED_cfg_t Leds[__LED_Num] =
 {
-    [LED_Toggle] = 
+    [LED_1] = 
     {
-        .Port = GPIO_PORTA,
+        .Port = GPIO_PORTB,
         .Pin = GPIO_PIN0,
+        .Direction = LED_DIR_FORWARD
+    },
+    [LED_2] = 
+    {
+        .Port = GPIO_PORTB,
+        .Pin = GPIO_PIN1,
         .Direction = LED_DIR_FORWARD
     }
 

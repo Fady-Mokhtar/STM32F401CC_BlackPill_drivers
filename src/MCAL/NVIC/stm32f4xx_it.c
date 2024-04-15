@@ -50,6 +50,7 @@
 //extern DMA_HandleTypeDef hdma_usart1_rx;
 extern USART_ManagerStruct usart1Manager;
 extern DMA_HandleTypeDef dma2Manager_stream2_usart1_rx;
+extern DMA_HandleTypeDef dma2Manager_stream7_usart1_tx;
 /* USER CODE BEGIN EV */
 
 /* USER CODE END EV */
@@ -229,7 +230,7 @@ void DMA2_Stream7_IRQHandler(void)
   /* USER CODE BEGIN DMA2_Stream7_IRQn 0 */
 
   /* USER CODE END DMA2_Stream7_IRQn 0 */
-  
+  MCAL_DMA_IRQHandler(&dma2Manager_stream7_usart1_tx);
   /* USER CODE BEGIN DMA2_Stream7_IRQn 1 */
 
   /* USER CODE END DMA2_Stream7_IRQn 1 */
